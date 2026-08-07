@@ -1,1 +1,901 @@
+/* ============================================================
+   css/components/question-card.css — Question Card Component
+   Applied Deep Learning Platform
+   ============================================================ */
 
+/* ── 1. Question Container ──────────────────────────────────── */
+.question-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--space-6);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    animation: questionFadeIn 0.3s ease forwards;
+    position: relative;
+}
+
+@keyframes questionFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── 2. Question Header ────────────────────────────────────── */
+.question-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.question-header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Question Number */
+.question-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 var(--space-2);
+    background: var(--color-primary);
+    color: var(--text-inverse);
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    border-radius: var(--border-radius-md);
+    flex-shrink: 0;
+}
+
+/* Topic Badge */
+.question-topic-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 4px var(--space-3);
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-primary);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    border-radius: var(--border-radius-full);
+    border: 1px solid rgba(99, 102, 241, 0.12);
+    white-space: nowrap;
+}
+
+.question-topic-badge svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Difficulty Badge */
+.question-difficulty-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 4px var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    border-radius: var(--border-radius-full);
+    text-transform: capitalize;
+    border: 1px solid transparent;
+}
+
+.question-difficulty-badge.easy {
+    background: rgba(34, 197, 94, 0.10);
+    color: var(--color-success);
+    border-color: rgba(34, 197, 94, 0.15);
+}
+
+.question-difficulty-badge.medium {
+    background: rgba(245, 158, 11, 0.10);
+    color: var(--color-warning);
+    border-color: rgba(245, 158, 11, 0.15);
+}
+
+.question-difficulty-badge.hard {
+    background: rgba(239, 68, 68, 0.10);
+    color: var(--color-danger);
+    border-color: rgba(239, 68, 68, 0.15);
+}
+
+.question-difficulty-badge.expert {
+    background: rgba(139, 92, 246, 0.10);
+    color: var(--color-secondary);
+    border-color: rgba(139, 92, 246, 0.15);
+}
+
+/* Header Right Actions */
+.question-header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-shrink: 0;
+}
+
+/* Flag/Bookmark Button */
+.btn-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 1.1rem;
+}
+
+.btn-flag:hover {
+    background: var(--bg-surface-alt);
+    border-color: var(--border-color-strong);
+    color: var(--text-secondary);
+}
+
+.btn-flag.active {
+    color: var(--color-warning);
+    border-color: rgba(245, 158, 11, 0.3);
+    background: rgba(245, 158, 11, 0.08);
+}
+
+.btn-flag.active:hover {
+    background: rgba(245, 158, 11, 0.15);
+}
+
+.btn-flag:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ── 3. Question Text ───────────────────────────────────────── */
+.question-text {
+    font-size: var(--text-lg);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+    line-height: var(--leading-loose);
+    padding: var(--space-2) 0;
+    margin: 0;
+}
+
+.question-text.has-image {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
+.question-text img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-color);
+    margin-top: var(--space-2);
+}
+
+/* ── 4. Answer Options ──────────────────────────────────────── */
+.question-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+}
+
+/* Option Container */
+.option-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-surface-alt);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    user-select: none;
+}
+
+.option-item:hover:not(.disabled) {
+    background: var(--bg-surface);
+    border-color: var(--border-color-strong);
+    transform: translateX(4px);
+}
+
+/* Option Label (A, B, C, D) */
+.option-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+}
+
+.option-item:hover:not(.disabled) .option-label {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+/* Option Text */
+.option-text {
+    flex: 1;
+    font-size: var(--text-base);
+    color: var(--text-primary);
+    line-height: var(--leading-normal);
+    padding-top: 2px;
+}
+
+.option-text code {
+    background: var(--bg-surface-alt);
+    padding: 2px 6px;
+    border-radius: var(--border-radius-sm);
+    font-size: 0.9em;
+    font-family: 'Courier New', monospace;
+}
+
+/* ── 5. Selected Option State ───────────────────────────────── */
+.option-item.selected {
+    border-color: var(--color-primary);
+    background: rgba(99, 102, 241, 0.06);
+}
+
+.option-item.selected .option-label {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--text-inverse);
+}
+
+/* ── 6. Correct Answer State ────────────────────────────────── */
+.option-item.correct {
+    border-color: var(--color-success);
+    background: rgba(34, 197, 94, 0.08);
+}
+
+.option-item.correct .option-label {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: var(--text-inverse);
+}
+
+.option-item.correct::before {
+    content: '✓';
+    position: absolute;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-success);
+    font-weight: var(--font-bold);
+    font-size: var(--text-lg);
+}
+
+/* ── 7. Wrong Answer State ──────────────────────────────────── */
+.option-item.wrong {
+    border-color: var(--color-danger);
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.option-item.wrong .option-label {
+    background: var(--color-danger);
+    border-color: var(--color-danger);
+    color: var(--text-inverse);
+}
+
+.option-item.wrong::before {
+    content: '✗';
+    position: absolute;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-danger);
+    font-weight: var(--font-bold);
+    font-size: var(--text-lg);
+}
+
+/* ── 8. Disabled State ──────────────────────────────────────── */
+.option-item.disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+.option-item.disabled:hover {
+    transform: none;
+    border-color: var(--border-color);
+    background: var(--bg-surface-alt);
+}
+
+.option-item.disabled .option-label:hover {
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+/* ── 9. Explanation Box ─────────────────────────────────────── */
+.question-explanation {
+    margin-top: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    background: rgba(59, 130, 246, 0.04);
+    border: 1px solid rgba(59, 130, 246, 0.12);
+    border-radius: var(--border-radius-md);
+    animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.question-explanation-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--color-info);
+    margin-bottom: var(--space-2);
+}
+
+.question-explanation-header svg {
+    width: 18px;
+    height: 18px;
+}
+
+.question-explanation-text {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-loose);
+}
+
+.question-explanation-text strong {
+    color: var(--text-primary);
+    font-weight: var(--font-semibold);
+}
+
+/* Explanation with image */
+.question-explanation-text img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    margin: var(--space-2) 0;
+}
+
+/* ── 10. Review Mode Layout ────────────────────────────────── */
+.question-container.review-mode {
+    background: var(--bg-surface-alt);
+    border-color: var(--border-color-strong);
+}
+
+.question-container.review-mode .question-options {
+    gap: var(--space-2);
+}
+
+.question-container.review-mode .option-item {
+    padding: var(--space-2) var(--space-3);
+    border-width: 1px;
+}
+
+/* Review status badge */
+.review-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 2px var(--space-2);
+    border-radius: var(--border-radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+}
+
+.review-status-badge.correct {
+    background: rgba(34, 197, 94, 0.10);
+    color: var(--color-success);
+}
+
+.review-status-badge.wrong {
+    background: rgba(239, 68, 68, 0.10);
+    color: var(--color-danger);
+}
+
+.review-status-badge.skipped {
+    background: var(--bg-surface-alt);
+    color: var(--text-muted);
+}
+
+/* ── 11. Question Navigation ────────────────────────────────── */
+.question-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+    margin-top: var(--space-4);
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.question-nav-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+}
+
+.question-nav-info .current {
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+}
+
+.question-nav-info .total {
+    color: var(--text-muted);
+}
+
+/* Navigation Buttons */
+.question-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.btn-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-width: 80px;
+    justify-content: center;
+}
+
+.btn-nav:hover:not(:disabled) {
+    background: var(--bg-surface);
+    border-color: var(--border-color-strong);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.btn-nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-nav-primary {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--text-inverse);
+}
+
+.btn-nav-primary:hover:not(:disabled) {
+    background: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: var(--text-inverse);
+}
+
+.btn-nav-success {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: var(--text-inverse);
+}
+
+.btn-nav-success:hover:not(:disabled) {
+    background: #16a34a;
+    border-color: #16a34a;
+    color: var(--text-inverse);
+}
+
+.btn-nav:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ── 12. Question Progress Indicator ────────────────────────── */
+.question-progress-dots {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+    flex-wrap: wrap;
+}
+
+.progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border-color);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+}
+
+.progress-dot:hover {
+    transform: scale(1.2);
+}
+
+.progress-dot.active {
+    background: var(--color-primary);
+    transform: scale(1.2);
+}
+
+.progress-dot.answered {
+    background: var(--color-success);
+}
+
+.progress-dot.flagged {
+    background: var(--color-warning);
+}
+
+.progress-dot.wrong {
+    background: var(--color-danger);
+}
+
+.progress-dot:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ── 13. Question Timer ──────────────────────────────────────── */
+.question-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-secondary);
+}
+
+.question-timer.warning {
+    background: rgba(245, 158, 11, 0.08);
+    border-color: rgba(245, 158, 11, 0.2);
+    color: var(--color-warning);
+}
+
+.question-timer.danger {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: var(--color-danger);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* ── 14. Responsive Behavior ────────────────────────────────── */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .question-container {
+        padding: var(--space-5);
+        gap: var(--space-5);
+    }
+
+    .question-text {
+        font-size: var(--text-base);
+    }
+
+    .option-item {
+        padding: var(--space-2-5) var(--space-3);
+    }
+
+    .option-text {
+        font-size: var(--text-sm);
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .question-container {
+        padding: var(--space-4);
+        gap: var(--space-4);
+        border-radius: var(--border-radius-md);
+    }
+
+    .question-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-3);
+    }
+
+    .question-header-left {
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+
+    .question-number {
+        min-width: 30px;
+        height: 30px;
+        font-size: var(--text-xs);
+    }
+
+    .question-topic-badge {
+        font-size: 10px;
+        padding: 2px var(--space-2);
+    }
+
+    .question-difficulty-badge {
+        font-size: 10px;
+        padding: 2px var(--space-2);
+    }
+
+    .question-header-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .question-text {
+        font-size: var(--text-sm);
+        line-height: var(--leading-loose);
+    }
+
+    .question-options {
+        gap: var(--space-2);
+    }
+
+    .option-item {
+        padding: var(--space-2) var(--space-3);
+        gap: var(--space-2);
+        border-width: 1px;
+    }
+
+    .option-item:hover:not(.disabled) {
+        transform: translateX(2px);
+    }
+
+    .option-label {
+        min-width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+
+    .option-text {
+        font-size: var(--text-sm);
+    }
+
+    .option-item.correct::before,
+    .option-item.wrong::before {
+        font-size: var(--text-base);
+        right: var(--space-2);
+    }
+
+    .question-explanation {
+        padding: var(--space-3);
+        margin-top: var(--space-3);
+    }
+
+    .question-explanation-text {
+        font-size: var(--text-xs);
+    }
+
+    .question-navigation {
+        flex-direction: column;
+        gap: var(--space-3);
+        padding-top: var(--space-3);
+        margin-top: var(--space-3);
+    }
+
+    .question-nav-info {
+        width: 100%;
+        justify-content: space-between;
+        font-size: var(--text-xs);
+    }
+
+    .question-nav-buttons {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .btn-nav {
+        flex: 1;
+        padding: var(--space-2) var(--space-3);
+        font-size: var(--text-xs);
+        min-width: 60px;
+    }
+
+    .question-progress-dots {
+        gap: var(--space-1);
+    }
+
+    .progress-dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .question-timer {
+        font-size: var(--text-xs);
+        padding: var(--space-1) var(--space-2);
+    }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+    .question-container {
+        padding: var(--space-3);
+        gap: var(--space-3);
+    }
+
+    .question-text {
+        font-size: var(--text-sm);
+    }
+
+    .option-item {
+        padding: var(--space-1-5) var(--space-2);
+    }
+
+    .option-text {
+        font-size: var(--text-xs);
+    }
+
+    .question-explanation {
+        padding: var(--space-2);
+    }
+
+    .btn-nav {
+        font-size: 10px;
+        padding: var(--space-1-5) var(--space-2);
+        min-width: 50px;
+    }
+
+    .question-number {
+        min-width: 26px;
+        height: 26px;
+        font-size: 10px;
+    }
+}
+
+/* ── 15. Dark Theme Overrides ───────────────────────────────── */
+[data-theme="dark"] .question-container {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .option-item {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .option-item:hover:not(.disabled) {
+    background: var(--bg-surface);
+}
+
+[data-theme="dark"] .option-item.selected {
+    background: rgba(99, 102, 241, 0.08);
+}
+
+[data-theme="dark"] .option-item.correct {
+    background: rgba(34, 197, 94, 0.06);
+}
+
+[data-theme="dark"] .option-item.wrong {
+    background: rgba(239, 68, 68, 0.06);
+}
+
+[data-theme="dark"] .question-explanation {
+    background: rgba(59, 130, 246, 0.03);
+    border-color: rgba(59, 130, 246, 0.08);
+}
+
+[data-theme="dark"] .btn-flag.active {
+    background: rgba(245, 158, 11, 0.06);
+}
+
+[data-theme="dark"] .btn-nav {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .btn-nav:hover:not(:disabled) {
+    background: var(--bg-surface);
+}
+
+[data-theme="dark"] .question-timer.warning {
+    background: rgba(245, 158, 11, 0.06);
+}
+
+[data-theme="dark"] .question-timer.danger {
+    background: rgba(239, 68, 68, 0.06);
+}
+
+[data-theme="dark"] .review-status-badge.correct {
+    background: rgba(34, 197, 94, 0.06);
+}
+
+[data-theme="dark"] .review-status-badge.wrong {
+    background: rgba(239, 68, 68, 0.06);
+}
+
+/* ── 16. Accessibility ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .question-container {
+        animation: none;
+    }
+
+    .question-explanation {
+        animation: none;
+    }
+
+    .option-item {
+        transition: none;
+    }
+
+    .option-item:hover:not(.disabled) {
+        transform: none;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+        transform: none;
+    }
+
+    .question-timer.danger {
+        animation: none;
+    }
+
+    .progress-dot:hover {
+        transform: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .option-item {
+        border-width: 2px;
+    }
+
+    .option-item.selected {
+        border-color: var(--color-primary);
+        background: rgba(99, 102, 241, 0.12);
+    }
+
+    .option-item.correct {
+        border-color: var(--color-success);
+        background: rgba(34, 197, 94, 0.12);
+    }
+
+    .option-item.wrong {
+        border-color: var(--color-danger);
+        background: rgba(239, 68, 68, 0.12);
+    }
+
+    .question-explanation {
+        border-width: 2px;
+    }
+}
