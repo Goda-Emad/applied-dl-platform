@@ -1,1 +1,974 @@
+/* ============================================================
+   css/components/progress.css — Progress Visualization
+   Applied Deep Learning Platform
+   ============================================================ */
 
+/* ── 1. Progress Container ──────────────────────────────────── */
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    width: 100%;
+}
+
+.progress-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ── 2. Standard Progress Bars ────────────────────────────── */
+.progress-bar-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.progress-bar-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1-5);
+}
+
+.progress-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.progress-bar-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+}
+
+.progress-bar-percentage {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-secondary);
+}
+
+.progress-bar-track {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-surface-alt);
+    border-radius: var(--border-radius-full);
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: var(--border-radius-full);
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+    position: relative;
+}
+
+/* Shimmer animation */
+.progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 100%
+    );
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+
+/* Progress bar color variants */
+.progress-bar-fill.success {
+    background: linear-gradient(90deg, var(--color-success), #2ecc71);
+}
+
+.progress-bar-fill.warning {
+    background: linear-gradient(90deg, var(--color-warning), #f39c12);
+}
+
+.progress-bar-fill.danger {
+    background: linear-gradient(90deg, var(--color-danger), #e74c3c);
+}
+
+.progress-bar-fill.info {
+    background: linear-gradient(90deg, var(--color-info), #3498db);
+}
+
+.progress-bar-fill.secondary {
+    background: linear-gradient(90deg, var(--color-secondary), #8b5cf6);
+}
+
+/* Progress bar sizes */
+.progress-bar-track.sm {
+    height: 4px;
+}
+
+.progress-bar-track.md {
+    height: 8px;
+}
+
+.progress-bar-track.lg {
+    height: 12px;
+}
+
+.progress-bar-track.xl {
+    height: 16px;
+}
+
+/* Progress bar with steps */
+.progress-bar-track.step {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    background: var(--bg-surface-alt);
+    height: auto;
+}
+
+.progress-step {
+    flex: 1;
+    height: 6px;
+    border-radius: var(--border-radius-full);
+    background: var(--border-color);
+    transition: all var(--transition-base);
+}
+
+.progress-step.completed {
+    background: var(--color-success);
+}
+
+.progress-step.current {
+    background: var(--color-primary);
+    animation: stepPulse 1.5s infinite;
+}
+
+.progress-step.failed {
+    background: var(--color-danger);
+}
+
+@keyframes stepPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* ── 3. Circular Progress / Ring Components ────────────────── */
+.circular-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+}
+
+.circular-progress-ring {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circular-progress-ring svg {
+    transform: rotate(-90deg);
+}
+
+.circular-progress-ring .bg-circle {
+    fill: none;
+    stroke: var(--bg-surface-alt);
+    stroke-width: 6;
+}
+
+.circular-progress-ring .progress-circle {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ring color variants */
+.progress-ring-primary .progress-circle {
+    stroke: var(--color-primary);
+}
+
+.progress-ring-success .progress-circle {
+    stroke: var(--color-success);
+}
+
+.progress-ring-warning .progress-circle {
+    stroke: var(--color-warning);
+}
+
+.progress-ring-danger .progress-circle {
+    stroke: var(--color-danger);
+}
+
+.progress-ring-secondary .progress-circle {
+    stroke: var(--color-secondary);
+}
+
+/* Ring sizes */
+.circular-progress-ring.sm {
+    width: 80px;
+    height: 80px;
+}
+
+.circular-progress-ring.sm .bg-circle,
+.circular-progress-ring.sm .progress-circle {
+    stroke-width: 5;
+}
+
+.circular-progress-ring.md {
+    width: 120px;
+    height: 120px;
+}
+
+.circular-progress-ring.md .bg-circle,
+.circular-progress-ring.md .progress-circle {
+    stroke-width: 6;
+}
+
+.circular-progress-ring.lg {
+    width: 160px;
+    height: 160px;
+}
+
+.circular-progress-ring.lg .bg-circle,
+.circular-progress-ring.lg .progress-circle {
+    stroke-width: 7;
+}
+
+/* Ring center content */
+.ring-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.ring-center .ring-value {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.ring-center .ring-label {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.ring-center .ring-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+/* ── 4. Statistics Widgets ──────────────────────────────────── */
+.stats-widget {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+}
+
+.stats-widget-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-4);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3);
+    background: var(--bg-surface-alt);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-item .stat-icon {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-1);
+}
+
+.stat-item .stat-number {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+}
+
+.stat-item .stat-description {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* Stat item variants */
+.stat-item.highlight-primary {
+    border-left: 3px solid var(--color-primary);
+}
+
+.stat-item.highlight-success {
+    border-left: 3px solid var(--color-success);
+}
+
+.stat-item.highlight-warning {
+    border-left: 3px solid var(--color-warning);
+}
+
+.stat-item.highlight-danger {
+    border-left: 3px solid var(--color-danger);
+}
+
+.stat-item.highlight-secondary {
+    border-left: 3px solid var(--color-secondary);
+}
+
+/* ── 5. Completion Cards ────────────────────────────────────── */
+.completion-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    transition: all var(--transition-base);
+}
+
+.completion-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.completion-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius-md);
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.completion-card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.completion-card-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.completion-card-subtitle {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.completion-card-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.completion-card-progress .progress-bar-track {
+    flex: 1;
+    min-width: 60px;
+}
+
+.completion-card-progress .progress-percentage {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-secondary);
+    min-width: 40px;
+    text-align: right;
+}
+
+/* ── 6. Accuracy Indicators ──────────────────────────────────── */
+.accuracy-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--border-radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+}
+
+.accuracy-indicator.high {
+    background: rgba(34, 197, 94, 0.10);
+    color: var(--color-success);
+}
+
+.accuracy-indicator.medium {
+    background: rgba(245, 158, 11, 0.10);
+    color: var(--color-warning);
+}
+
+.accuracy-indicator.low {
+    background: rgba(239, 68, 68, 0.10);
+    color: var(--color-danger);
+}
+
+.accuracy-indicator .accuracy-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.accuracy-indicator.high .accuracy-dot {
+    background: var(--color-success);
+}
+
+.accuracy-indicator.medium .accuracy-dot {
+    background: var(--color-warning);
+}
+
+.accuracy-indicator.low .accuracy-dot {
+    background: var(--color-danger);
+}
+
+/* ── 7. Score Displays ──────────────────────────────────────── */
+.score-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-4);
+    background: var(--bg-surface-alt);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.score-display-large {
+    padding: var(--space-6);
+}
+
+.score-display .score-value {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.score-display .score-value .score-suffix {
+    font-size: var(--text-lg);
+    font-weight: var(--font-medium);
+    color: var(--text-muted);
+}
+
+.score-display .score-label {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-top: var(--space-2);
+}
+
+.score-display .score-change {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    padding: 2px var(--space-2);
+    border-radius: var(--border-radius-full);
+    margin-top: var(--space-1);
+}
+
+.score-change.positive {
+    background: rgba(34, 197, 94, 0.10);
+    color: var(--color-success);
+}
+
+.score-change.negative {
+    background: rgba(239, 68, 68, 0.10);
+    color: var(--color-danger);
+}
+
+/* ── 8. Learning Progress Timeline ──────────────────────────── */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border-color);
+}
+
+.timeline-item {
+    display: flex;
+    gap: var(--space-4);
+    padding-left: var(--space-4);
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg-surface);
+    border: 2px solid var(--border-color);
+    transition: all var(--transition-base);
+}
+
+.timeline-item.completed::before {
+    background: var(--color-success);
+    border-color: var(--color-success);
+}
+
+.timeline-item.in-progress::before {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    animation: timelinePulse 2s infinite;
+}
+
+.timeline-item.failed::before {
+    background: var(--color-danger);
+    border-color: var(--color-danger);
+}
+
+@keyframes timelinePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(99, 102, 241, 0); }
+}
+
+.timeline-content {
+    flex: 1;
+    padding: var(--space-2);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+}
+
+.timeline-content:hover {
+    border-color: var(--border-color-strong);
+    box-shadow: var(--shadow-sm);
+}
+
+.timeline-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+}
+
+.timeline-date {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.timeline-score {
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    color: var(--text-secondary);
+    margin-top: var(--space-1);
+}
+
+/* ── 9. Achievement Indicators ────────────────────────────── */
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: var(--space-3);
+}
+
+.achievement-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-3);
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    text-align: center;
+}
+
+.achievement-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+}
+
+.achievement-item .achievement-icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-1);
+}
+
+.achievement-item .achievement-name {
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+}
+
+.achievement-item .achievement-description {
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.achievement-item.locked {
+    opacity: 0.4;
+    filter: grayscale(1);
+    cursor: default;
+}
+
+.achievement-item.locked:hover {
+    transform: none;
+    border-color: var(--border-color);
+}
+
+.achievement-item.unlocked {
+    border-color: rgba(34, 197, 94, 0.2);
+    background: rgba(34, 197, 94, 0.04);
+}
+
+.achievement-item.unlocked .achievement-icon {
+    animation: achievementUnlock 0.6s ease;
+}
+
+@keyframes achievementUnlock {
+    0% { transform: scale(0) rotate(-30deg); }
+    50% { transform: scale(1.3) rotate(10deg); }
+    100% { transform: scale(1) rotate(0); }
+}
+
+/* ── 10. Empty Progress States ────────────────────────────── */
+.empty-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8) var(--space-4);
+    text-align: center;
+    background: var(--bg-surface-alt);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--border-radius-lg);
+    gap: var(--space-4);
+}
+
+.empty-progress .empty-icon {
+    font-size: 3rem;
+    opacity: 0.5;
+}
+
+.empty-progress .empty-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.empty-progress .empty-description {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    max-width: 400px;
+    line-height: var(--leading-loose);
+}
+
+/* ── 11. Responsive Behavior ────────────────────────────────── */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .stats-widget-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .achievement-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+
+    .circular-progress-ring.lg {
+        width: 140px;
+        height: 140px;
+    }
+
+    .circular-progress-ring.lg .bg-circle,
+    .circular-progress-ring.lg .progress-circle {
+        stroke-width: 6;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .progress-section {
+        padding: var(--space-3);
+    }
+
+    .stats-widget-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-2);
+    }
+
+    .stat-item {
+        padding: var(--space-2);
+    }
+
+    .stat-item .stat-number {
+        font-size: var(--text-lg);
+    }
+
+    .completion-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+    }
+
+    .completion-card-progress {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-1);
+    }
+
+    .completion-card-progress .progress-percentage {
+        text-align: left;
+        font-size: var(--text-xs);
+    }
+
+    .circular-progress-ring.sm {
+        width: 60px;
+        height: 60px;
+    }
+
+    .circular-progress-ring.md {
+        width: 100px;
+        height: 100px;
+    }
+
+    .circular-progress-ring.lg {
+        width: 120px;
+        height: 120px;
+    }
+
+    .ring-center .ring-value {
+        font-size: var(--text-xl);
+    }
+
+    .ring-center .ring-label {
+        font-size: 9px;
+    }
+
+    .score-display .score-value {
+        font-size: var(--text-3xl);
+    }
+
+    .timeline::before {
+        left: 12px;
+    }
+
+    .timeline-item {
+        padding-left: var(--space-3);
+    }
+
+    .timeline-item::before {
+        width: 10px;
+        height: 10px;
+        left: -4px;
+    }
+
+    .achievement-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: var(--space-2);
+    }
+
+    .achievement-item {
+        padding: var(--space-2);
+    }
+
+    .achievement-item .achievement-icon {
+        font-size: 1.5rem;
+    }
+
+    .empty-progress {
+        padding: var(--space-6) var(--space-3);
+    }
+
+    .empty-progress .empty-icon {
+        font-size: 2rem;
+    }
+
+    .empty-progress .empty-title {
+        font-size: var(--text-base);
+    }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+    .stats-widget-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-bar-label,
+    .progress-bar-percentage {
+        font-size: var(--text-xs);
+    }
+
+    .circular-progress-ring.md {
+        width: 80px;
+        height: 80px;
+    }
+
+    .circular-progress-ring.lg {
+        width: 100px;
+        height: 100px;
+    }
+
+    .ring-center .ring-value {
+        font-size: var(--text-lg);
+    }
+
+    .score-display .score-value {
+        font-size: var(--text-2xl);
+    }
+
+    .achievement-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ── 12. Dark Theme Overrides ───────────────────────────────── */
+[data-theme="dark"] .progress-section {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .stat-item {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .completion-card {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .timeline-content {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .score-display {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .achievement-item {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .empty-progress {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .accuracy-indicator.high {
+    background: rgba(34, 197, 94, 0.06);
+}
+
+[data-theme="dark"] .accuracy-indicator.medium {
+    background: rgba(245, 158, 11, 0.06);
+}
+
+[data-theme="dark"] .accuracy-indicator.low {
+    background: rgba(239, 68, 68, 0.06);
+}
+
+/* ── 13. Accessibility ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .progress-bar-fill {
+        transition: none;
+    }
+
+    .progress-bar-fill::after {
+        animation: none;
+        display: none;
+    }
+
+    .progress-step.current {
+        animation: none;
+    }
+
+    .timeline-item.in-progress::before {
+        animation: none;
+    }
+
+    .achievement-item.unlocked .achievement-icon {
+        animation: none;
+    }
+
+    .completion-card:hover {
+        transform: none;
+    }
+
+    .stat-item:hover {
+        transform: none;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .progress-bar-track {
+        border: 1px solid var(--border-color-strong);
+    }
+
+    .progress-bar-fill {
+        background: var(--color-primary);
+    }
+
+    .progress-bar-fill.success {
+        background: var(--color-success);
+    }
+
+    .progress-bar-fill.warning {
+        background: var(--color-warning);
+    }
+
+    .progress-bar-fill.danger {
+        background: var(--color-danger);
+    }
+
+    .circular-progress-ring .bg-circle {
+        stroke: var(--border-color-strong);
+    }
+
+    .achievement-item.locked {
+        opacity: 0.6;
+    }
+
+    .empty-progress {
+        border-width: 3px;
+    }
+}
