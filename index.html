@@ -1,1 +1,954 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Applied Deep Learning Interactive Exam Platform — practice MCQs, track progress, and master your course material." />
+  <meta name="author" content="ADL Platform" />
+  <title>Applied Deep Learning | Exam Platform</title>
+
+  <!-- ═══════════════════════════════════════════
+       THEME STYLESHEETS
+  ════════════════════════════════════════════ -->
+  <link rel="stylesheet" href="css/themes/light.css" />
+  <link rel="stylesheet" href="css/themes/dark.css" />
+
+  <!-- ═══════════════════════════════════════════
+       MAIN STYLESHEET
+  ════════════════════════════════════════════ -->
+  <link rel="stylesheet" href="css/main.css" />
+
+  <!-- ═══════════════════════════════════════════
+       COMPONENT STYLESHEETS
+  ════════════════════════════════════════════ -->
+  <link rel="stylesheet" href="css/components/sidebar.css" />
+  <link rel="stylesheet" href="css/components/dashboard.css" />
+  <link rel="stylesheet" href="css/components/lecture-card.css" />
+  <link rel="stylesheet" href="css/components/question-card.css" />
+  <link rel="stylesheet" href="css/components/modal.css" />
+  <link rel="stylesheet" href="css/components/progress.css" />
+  <link rel="stylesheet" href="css/components/exam.css" />
+  <link rel="stylesheet" href="css/components/results.css" />
+  <link rel="stylesheet" href="css/components/study-questions.css" />
+  <link rel="stylesheet" href="css/components/toast.css" />
+  <link rel="stylesheet" href="css/components/responsive.css" />
+
+  <!-- ═══════════════════════════════════════════
+       FAVICON (placeholder — replace when ready)
+  ════════════════════════════════════════════ -->
+  <link rel="icon" type="image/png" href="assets/icons/.gitkeep" />
+</head>
+
+<body class="app-body" id="app-body">
+
+  <!-- ╔══════════════════════════════════════════╗
+       ║           TOAST NOTIFICATION             ║
+       ╚══════════════════════════════════════════╝ -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ╔══════════════════════════════════════════╗
+       ║           MODAL OVERLAY                  ║
+       ╚══════════════════════════════════════════╝ -->
+  <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div id="modal-container" class="modal-container">
+      <header class="modal-header">
+        <h2 id="modal-title" class="modal-title">Modal Title</h2>
+        <button id="modal-close-btn" class="modal-close-btn" aria-label="Close modal">&times;</button>
+      </header>
+      <div id="modal-body" class="modal-body">
+        <!-- Dynamically injected content -->
+      </div>
+      <footer id="modal-footer" class="modal-footer">
+        <!-- Dynamically injected actions -->
+      </footer>
+    </div>
+  </div>
+
+  <!-- ╔══════════════════════════════════════════╗
+       ║         TOP NAVIGATION BAR               ║
+       ╚══════════════════════════════════════════╝ -->
+  <header id="top-nav" class="top-nav" role="banner">
+    <div class="top-nav__left">
+      <!-- Sidebar toggle (hamburger) -->
+      <button id="sidebar-toggle-btn" class="sidebar-toggle-btn" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="sidebar">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <!-- Brand / Logo -->
+      <a href="#dashboard" class="brand" id="brand-logo" aria-label="Applied Deep Learning Home">
+        <span class="brand__icon" aria-hidden="true">🧠</span>
+        <span class="brand__text">
+          <span class="brand__title">ADL Platform</span>
+          <span class="brand__subtitle">Applied Deep Learning</span>
+        </span>
+      </a>
+    </div>
+
+    <div class="top-nav__center">
+      <!-- Global Search -->
+      <div class="search-bar" role="search">
+        <label for="global-search" class="sr-only">Search lectures or questions</label>
+        <span class="search-bar__icon" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          id="global-search"
+          class="search-bar__input"
+          placeholder="Search lectures, topics, or questions…"
+          autocomplete="off"
+          aria-label="Search lectures or questions"
+        />
+        <div id="search-results-dropdown" class="search-results-dropdown hidden" role="listbox" aria-label="Search results">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <div class="top-nav__right">
+      <!-- Theme Toggle -->
+      <button id="theme-toggle-btn" class="icon-btn theme-toggle-btn" aria-label="Toggle dark/light theme" title="Toggle theme">
+        <span class="theme-icon theme-icon--light" aria-hidden="true">☀️</span>
+        <span class="theme-icon theme-icon--dark" aria-hidden="true">🌙</span>
+      </button>
+
+      <!-- Bookmarks -->
+      <button id="nav-bookmarks-btn" class="icon-btn" aria-label="View bookmarks" title="Bookmarks" data-page="bookmarks">
+        <span aria-hidden="true">🔖</span>
+        <span id="bookmark-badge" class="badge hidden">0</span>
+      </button>
+
+      <!-- Settings -->
+      <button id="nav-settings-btn" class="icon-btn" aria-label="Open settings" title="Settings" data-page="settings">
+        <span aria-hidden="true">⚙️</span>
+      </button>
+
+      <!-- User Avatar Placeholder -->
+      <div class="user-avatar" id="user-avatar" aria-label="User profile" title="Profile">
+        <span aria-hidden="true">👤</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ╔══════════════════════════════════════════╗
+       ║        APP SHELL (SIDEBAR + MAIN)        ║
+       ╚══════════════════════════════════════════╝ -->
+  <div class="app-shell" id="app-shell">
+
+    <!-- ┌─────────────────────────────────────┐
+         │         COLLAPSIBLE SIDEBAR         │
+         └─────────────────────────────────────┘ -->
+    <aside id="sidebar" class="sidebar" role="navigation" aria-label="Main navigation">
+
+      <!-- Overall Progress Summary -->
+      <div class="sidebar__progress-summary" id="sidebar-progress-summary">
+        <div class="sidebar-progress-ring-wrapper">
+          <canvas id="sidebar-progress-ring" class="progress-ring" width="64" height="64" aria-label="Overall course progress"></canvas>
+        </div>
+        <div class="sidebar-progress-info">
+          <span class="sidebar-progress-label">Overall Progress</span>
+          <span id="sidebar-progress-percent" class="sidebar-progress-percent">0%</span>
+        </div>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Section navigation">
+
+        <!-- ── Main Pages ── -->
+        <ul class="sidebar__nav-list" role="list">
+          <li class="sidebar__nav-item">
+            <a href="#dashboard" class="sidebar__nav-link active" data-page="dashboard" aria-current="page">
+              <span class="sidebar__nav-icon" aria-hidden="true">🏠</span>
+              <span class="sidebar__nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#progress" class="sidebar__nav-link" data-page="progress">
+              <span class="sidebar__nav-icon" aria-hidden="true">📈</span>
+              <span class="sidebar__nav-label">My Progress</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#bookmarks" class="sidebar__nav-link" data-page="bookmarks">
+              <span class="sidebar__nav-icon" aria-hidden="true">🔖</span>
+              <span class="sidebar__nav-label">Bookmarks</span>
+              <span id="sidebar-bookmark-count" class="sidebar__badge hidden">0</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#settings" class="sidebar__nav-link" data-page="settings">
+              <span class="sidebar__nav-icon" aria-hidden="true">⚙️</span>
+              <span class="sidebar__nav-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+
+        <hr class="sidebar__divider" aria-hidden="true" />
+
+        <!-- ── Lectures Section ── -->
+        <div class="sidebar__section-header">
+          <span class="sidebar__section-title">Lectures</span>
+          <button
+            class="sidebar__section-toggle"
+            id="sidebar-lectures-toggle"
+            aria-expanded="true"
+            aria-controls="sidebar-lectures-list"
+            aria-label="Toggle lectures list"
+          >▾</button>
+        </div>
+
+        <ul class="sidebar__nav-list sidebar__nav-list--lectures" id="sidebar-lectures-list" role="list">
+
+          <!-- Week 01 → Week 13 -->
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week01" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week01">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 1</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week01" aria-label="Week 1 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week02" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week02">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 2</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week02" aria-label="Week 2 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week03" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week03">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 3</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week03" aria-label="Week 3 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week04" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week04">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 4</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week04" aria-label="Week 4 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week05" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week05">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 5</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week05" aria-label="Week 5 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week06" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week06">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 6</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week06" aria-label="Week 6 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week07" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week07">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 7</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week07" aria-label="Week 7 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week08" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week08">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 8</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week08" aria-label="Week 8 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week09" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week09">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 9</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week09" aria-label="Week 9 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week10" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week10">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 10</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week10" aria-label="Week 10 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week11" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week11">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 11</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week11" aria-label="Week 11 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week12" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week12">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 12</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week12" aria-label="Week 12 progress">–</span>
+            </a>
+          </li>
+          <li class="sidebar__nav-item">
+            <a href="#lecture/week13" class="sidebar__nav-link sidebar__nav-link--lecture" data-page="lecture-detail" data-week="week13">
+              <span class="sidebar__nav-icon" aria-hidden="true">📖</span>
+              <span class="sidebar__nav-label">Week 13</span>
+              <span class="sidebar__lecture-progress" id="sidebar-progress-week13" aria-label="Week 13 progress">–</span>
+            </a>
+          </li>
+
+          <!-- Study Questions Bank -->
+          <li class="sidebar__nav-item sidebar__nav-item--special">
+            <a href="#study-questions" class="sidebar__nav-link sidebar__nav-link--special" data-page="study-questions">
+              <span class="sidebar__nav-icon" aria-hidden="true">📝</span>
+              <span class="sidebar__nav-label">Study Questions</span>
+            </a>
+          </li>
+        </ul>
+
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar__footer">
+        <span class="sidebar__footer-text">ADL Platform v1.0</span>
+      </div>
+    </aside>
+    <!-- /sidebar -->
+
+    <!-- ┌─────────────────────────────────────┐
+         │              MAIN CONTENT           │
+         └─────────────────────────────────────┘ -->
+    <main id="main-content" class="main-content" role="main" aria-label="Main content">
+
+      <!-- ══════════════════════════════════════
+           PAGE: DASHBOARD
+           (shown by default; others hidden/shown via router)
+      ═══════════════════════════════════════ -->
+      <section id="page-dashboard" class="page page--active" data-page="dashboard" aria-labelledby="dashboard-heading">
+
+        <!-- ── Hero Section ── -->
+        <section class="hero" id="hero" aria-labelledby="hero-heading">
+          <div class="hero__content">
+            <h1 id="hero-heading" class="hero__title">
+              Applied Deep Learning
+              <span class="hero__title-accent">Exam Platform</span>
+            </h1>
+            <p class="hero__subtitle">
+              Master your course with 650+ interactive MCQs across 13 weeks.
+              Practice by lecture, simulate full exams, and track your progress in real time.
+            </p>
+            <div class="hero__actions">
+              <button class="btn btn--primary btn--lg" id="hero-start-exam-btn" data-action="start-exam">
+                <span aria-hidden="true">🚀</span> Start Practice Exam
+              </button>
+              <button class="btn btn--secondary btn--lg" id="hero-browse-lectures-btn" data-page="lecture-browser">
+                <span aria-hidden="true">📚</span> Browse Lectures
+              </button>
+            </div>
+          </div>
+          <div class="hero__visual" aria-hidden="true">
+            <div class="hero__stat-bubble hero__stat-bubble--1">
+              <span class="hero__stat-number" id="hero-total-questions">650+</span>
+              <span class="hero__stat-label">Questions</span>
+            </div>
+            <div class="hero__stat-bubble hero__stat-bubble--2">
+              <span class="hero__stat-number">13</span>
+              <span class="hero__stat-label">Lectures</span>
+            </div>
+            <div class="hero__stat-bubble hero__stat-bubble--3">
+              <span class="hero__stat-number" id="hero-overall-score">–%</span>
+              <span class="hero__stat-label">Your Best</span>
+            </div>
+          </div>
+        </section>
+        <!-- /hero -->
+
+        <!-- ── Dashboard Preview Cards ── -->
+        <section class="dashboard-cards" id="dashboard-cards" aria-labelledby="dashboard-cards-heading">
+          <h2 id="dashboard-cards-heading" class="section-title">Your Overview</h2>
+
+          <div class="dashboard-cards__grid">
+
+            <!-- Card: Overall Progress -->
+            <article class="dashboard-card dashboard-card--progress" id="card-overall-progress" aria-labelledby="card-progress-title">
+              <div class="dashboard-card__icon" aria-hidden="true">📊</div>
+              <div class="dashboard-card__body">
+                <h3 id="card-progress-title" class="dashboard-card__title">Overall Progress</h3>
+                <p class="dashboard-card__value" id="card-progress-value">0 / 0</p>
+                <p class="dashboard-card__desc">questions answered across all lectures</p>
+              </div>
+              <div class="dashboard-card__chart">
+                <canvas id="card-progress-ring" class="progress-ring progress-ring--sm" width="48" height="48" aria-label="Overall progress ring"></canvas>
+              </div>
+            </article>
+
+            <!-- Card: Exams Taken -->
+            <article class="dashboard-card dashboard-card--exams" id="card-exams-taken" aria-labelledby="card-exams-title">
+              <div class="dashboard-card__icon" aria-hidden="true">📝</div>
+              <div class="dashboard-card__body">
+                <h3 id="card-exams-title" class="dashboard-card__title">Exams Taken</h3>
+                <p class="dashboard-card__value" id="card-exams-value">0</p>
+                <p class="dashboard-card__desc">practice sessions completed</p>
+              </div>
+            </article>
+
+            <!-- Card: Average Score -->
+            <article class="dashboard-card dashboard-card--score" id="card-avg-score" aria-labelledby="card-score-title">
+              <div class="dashboard-card__icon" aria-hidden="true">🎯</div>
+              <div class="dashboard-card__body">
+                <h3 id="card-score-title" class="dashboard-card__title">Average Score</h3>
+                <p class="dashboard-card__value" id="card-score-value">–%</p>
+                <p class="dashboard-card__desc">across all completed exams</p>
+              </div>
+            </article>
+
+            <!-- Card: Bookmarks -->
+            <article class="dashboard-card dashboard-card--bookmarks" id="card-bookmarks" aria-labelledby="card-bookmarks-title">
+              <div class="dashboard-card__icon" aria-hidden="true">🔖</div>
+              <div class="dashboard-card__body">
+                <h3 id="card-bookmarks-title" class="dashboard-card__title">Bookmarked</h3>
+                <p class="dashboard-card__value" id="card-bookmarks-value">0</p>
+                <p class="dashboard-card__desc">questions saved for review</p>
+              </div>
+              <a href="#bookmarks" class="dashboard-card__link" data-page="bookmarks" aria-label="View bookmarks">View →</a>
+            </article>
+
+            <!-- Card: Weakest Topic -->
+            <article class="dashboard-card dashboard-card--weak" id="card-weakest-topic" aria-labelledby="card-weak-title">
+              <div class="dashboard-card__icon" aria-hidden="true">⚠️</div>
+              <div class="dashboard-card__body">
+                <h3 id="card-weak-title" class="dashboard-card__title">Needs Attention</h3>
+                <p class="dashboard-card__value" id="card-weak-value">–</p>
+                <p class="dashboard-card__desc">topic with lowest score</p>
+              </div>
+            </article>
+
+            <!-- Card: Streak -->
+            <article class="dashboard-card dashboard-card--streak" id="card-streak" aria-labelledby="card-streak-title">
+              <div class="dashboard-card__icon" aria-hidden="true">🔥</div>
+              <div class="dashboard-card__body">
+                <h3 id="card-streak-title" class="dashboard-card__title">Study Streak</h3>
+                <p class="dashboard-card__value" id="card-streak-value">0 days</p>
+                <p class="dashboard-card__desc">consecutive days of practice</p>
+              </div>
+            </article>
+
+          </div>
+        </section>
+        <!-- /dashboard-cards -->
+
+        <!-- ── Course Overview ── -->
+        <section class="course-overview" id="course-overview" aria-labelledby="course-overview-heading">
+          <h2 id="course-overview-heading" class="section-title">Course Overview</h2>
+
+          <div class="course-overview__content">
+            <div class="course-overview__info">
+              <h3 class="course-overview__course-name">Applied Deep Learning</h3>
+              <dl class="course-overview__meta">
+                <div class="course-overview__meta-item">
+                  <dt>Lectures</dt>
+                  <dd id="meta-lecture-count">13 Weeks</dd>
+                </div>
+                <div class="course-overview__meta-item">
+                  <dt>Total Questions</dt>
+                  <dd id="meta-question-count">650+ MCQs</dd>
+                </div>
+                <div class="course-overview__meta-item">
+                  <dt>Question Types</dt>
+                  <dd>Single Choice, Multi-Choice</dd>
+                </div>
+                <div class="course-overview__meta-item">
+                  <dt>Exam Mode</dt>
+                  <dd>Timed / Untimed</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="course-overview__progress-chart" aria-label="Per-lecture progress chart">
+              <canvas id="overview-progress-chart" width="400" height="180" aria-label="Lecture progress bar chart"></canvas>
+            </div>
+          </div>
+        </section>
+        <!-- /course-overview -->
+
+        <!-- ── Lecture List ── -->
+        <section class="lecture-list" id="lecture-list" aria-labelledby="lecture-list-heading">
+          <div class="lecture-list__header">
+            <h2 id="lecture-list-heading" class="section-title">Lectures</h2>
+            <div class="lecture-list__controls">
+              <input
+                type="search"
+                id="lecture-search"
+                class="lecture-search-input"
+                placeholder="Filter lectures…"
+                aria-label="Filter lectures"
+                autocomplete="off"
+              />
+              <select id="lecture-sort" class="lecture-sort-select" aria-label="Sort lectures">
+                <option value="default">Default order</option>
+                <option value="progress-asc">Progress ↑</option>
+                <option value="progress-desc">Progress ↓</option>
+              </select>
+            </div>
+          </div>
+
+          <ol class="lecture-grid" id="lecture-grid" aria-label="Lecture list">
+
+            <!-- Week 1 -->
+            <li class="lecture-card" id="lecture-card-week01" data-week="week01">
+              <div class="lecture-card__week-badge">Week 1</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week01">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week01">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week01">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week01">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week01" id="lecture-bar-week01">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week01" aria-label="Practice Week 1">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week01" aria-label="Exam Week 1">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 2 -->
+            <li class="lecture-card" id="lecture-card-week02" data-week="week02">
+              <div class="lecture-card__week-badge">Week 2</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week02">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week02">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week02">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week02">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week02" id="lecture-bar-week02">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week02">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week02">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 3 -->
+            <li class="lecture-card" id="lecture-card-week03" data-week="week03">
+              <div class="lecture-card__week-badge">Week 3</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week03">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week03">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week03">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week03">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week03" id="lecture-bar-week03">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week03">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week03">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 4 -->
+            <li class="lecture-card" id="lecture-card-week04" data-week="week04">
+              <div class="lecture-card__week-badge">Week 4</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week04">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week04">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week04">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week04">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week04" id="lecture-bar-week04">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week04">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week04">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 5 -->
+            <li class="lecture-card" id="lecture-card-week05" data-week="week05">
+              <div class="lecture-card__week-badge">Week 5</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week05">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week05">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week05">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week05">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week05" id="lecture-bar-week05">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week05">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week05">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 6 -->
+            <li class="lecture-card" id="lecture-card-week06" data-week="week06">
+              <div class="lecture-card__week-badge">Week 6</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week06">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week06">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week06">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week06">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week06" id="lecture-bar-week06">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week06">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week06">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 7 -->
+            <li class="lecture-card" id="lecture-card-week07" data-week="week07">
+              <div class="lecture-card__week-badge">Week 7</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week07">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week07">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week07">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week07">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week07" id="lecture-bar-week07">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week07">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week07">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 8 -->
+            <li class="lecture-card" id="lecture-card-week08" data-week="week08">
+              <div class="lecture-card__week-badge">Week 8</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week08">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week08">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week08">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week08">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week08" id="lecture-bar-week08">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week08">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week08">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 9 -->
+            <li class="lecture-card" id="lecture-card-week09" data-week="week09">
+              <div class="lecture-card__week-badge">Week 9</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week09">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week09">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week09">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week09">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week09" id="lecture-bar-week09">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week09">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week09">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 10 -->
+            <li class="lecture-card" id="lecture-card-week10" data-week="week10">
+              <div class="lecture-card__week-badge">Week 10</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week10">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week10">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week10">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week10">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week10" id="lecture-bar-week10">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week10">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week10">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 11 -->
+            <li class="lecture-card" id="lecture-card-week11" data-week="week11">
+              <div class="lecture-card__week-badge">Week 11</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week11">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week11">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week11">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week11">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week11" id="lecture-bar-week11">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week11">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week11">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 12 -->
+            <li class="lecture-card" id="lecture-card-week12" data-week="week12">
+              <div class="lecture-card__week-badge">Week 12</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week12">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week12">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week12">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week12">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week12" id="lecture-bar-week12">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week12">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week12">Exam</button>
+              </div>
+            </li>
+
+            <!-- Week 13 -->
+            <li class="lecture-card" id="lecture-card-week13" data-week="week13">
+              <div class="lecture-card__week-badge">Week 13</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title" id="lecture-title-week13">Loading…</h3>
+                <p class="lecture-card__topic" id="lecture-topic-week13">–</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="lecture-qcount-week13">50 Questions</span>
+                  <span class="lecture-card__progress" id="lecture-progress-week13">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="lecture-title-week13" id="lecture-bar-week13">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="practice" data-week="week13">Practice</button>
+                <button class="btn btn--ghost btn--sm" data-action="exam" data-week="week13">Exam</button>
+              </div>
+            </li>
+
+            <!-- Study Questions (Special Card) -->
+            <li class="lecture-card lecture-card--special" id="lecture-card-study-questions" data-week="study-questions">
+              <div class="lecture-card__week-badge lecture-card__week-badge--special">📝</div>
+              <div class="lecture-card__body">
+                <h3 class="lecture-card__title">Study Questions Bank</h3>
+                <p class="lecture-card__topic">Classroom quizzes, exams &amp; revision questions</p>
+                <div class="lecture-card__meta">
+                  <span class="lecture-card__q-count" id="study-q-count">– Questions</span>
+                  <span class="lecture-card__progress" id="study-q-progress">0%</span>
+                </div>
+                <div class="lecture-card__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Study questions progress" id="lecture-bar-study">
+                  <div class="lecture-card__progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="lecture-card__actions">
+                <button class="btn btn--primary btn--sm" data-action="study-questions" aria-label="Open Study Questions Bank">Open Bank</button>
+              </div>
+            </li>
+
+          </ol>
+        </section>
+        <!-- /lecture-list -->
+
+        <!-- ── Quick Actions ── -->
+        <section class="quick-actions" id="quick-actions" aria-labelledby="quick-actions-heading">
+          <h2 id="quick-actions-heading" class="section-title">Quick Actions</h2>
+
+          <div class="quick-actions__grid">
+
+            <button class="quick-action-card" id="qa-random-exam" data-action="random-exam" aria-label="Start a random exam across all lectures">
+              <span class="quick-action-card__icon" aria-hidden="true">🎲</span>
+              <span class="quick-action-card__label">Random Exam</span>
+              <span class="quick-action-card__desc">50 questions from all weeks</span>
+            </button>
+
+            <button class="quick-action-card" id="qa-weak-topics" data-action="weak-topics" aria-label="Practice your weakest topics">
+              <span class="quick-action-card__icon" aria-hidden="true">🎯</span>
+              <span class="quick-action-card__label">Weak Topics</span>
+              <span class="quick-action-card__desc">Focus on what you got wrong</span>
+            </button>
+
+            <button class="quick-action-card" id="qa-bookmarks-practice" data-action="bookmarks-practice" aria-label="Practice bookmarked questions">
+              <span class="quick-action-card__icon" aria-hidden="true">🔖</span>
+              <span class="quick-action-card__label">Practice Bookmarks</span>
+              <span class="quick-action-card__desc">Review saved questions</span>
+            </button>
+
+            <button class="quick-action-card" id="qa-full-exam" data-action="full-exam" aria-label="Start a full course exam">
+              <span class="quick-action-card__icon" aria-hidden="true">📋</span>
+              <span class="quick-action-card__label">Full Exam</span>
+              <span class="quick-action-card__desc">Simulate a complete final</span>
+            </button>
+
+            <button class="quick-action-card" id="qa-study-questions" data-action="study-questions" aria-label="Browse the study questions bank">
+              <span class="quick-action-card__icon" aria-hidden="true">📝</span>
+              <span class="quick-action-card__label">Study Questions</span>
+              <span class="quick-action-card__desc">Classroom &amp; revision bank</span>
+            </button>
+
+            <button class="quick-action-card" id="qa-export-progress" data-action="export-progress" aria-label="Export your progress report">
+              <span class="quick-action-card__icon" aria-hidden="true">📤</span>
+              <span class="quick-action-card__label">Export Progress</span>
+              <span class="quick-action-card__desc">Download your report</span>
+            </button>
+
+          </div>
+        </section>
+        <!-- /quick-actions -->
+
+        <!-- ── Recent Activity ── -->
+        <section class="recent-activity" id="recent-activity" aria-labelledby="recent-activity-heading">
+          <h2 id="recent-activity-heading" class="section-title">Recent Activity</h2>
+
+          <div class="recent-activity__container">
+            <!-- Populated dynamically by dashboard.js -->
+            <ul class="activity-list" id="activity-list" aria-label="Recent activity log">
+              <li class="activity-list__empty" id="activity-empty-state">
+                <span aria-hidden="true">📭</span>
+                <p>No activity yet. Start a practice session to track your progress!</p>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <!-- /recent-activity -->
+
+      </section>
+      <!-- /page-dashboard -->
+
+
+      <!-- ══════════════════════════════════════
+           PAGE PLACEHOLDERS
+           (router will show/hide these)
+      ═══════════════════════════════════════ -->
+
+      <section id="page-progress" class="page hidden" data-page="progress" aria-labelledby="progress-page-heading">
+        <h1 id="progress-page-heading" class="page-title">My Progress</h1>
+        <div id="progress-page-content" class="page-content"><!-- Rendered by progress.js --></div>
+      </section>
+
+      <section id="page-bookmarks" class="page hidden" data-page="bookmarks" aria-labelledby="bookmarks-page-heading">
+        <h1 id="bookmarks-page-heading" class="page-title">Bookmarks</h1>
+        <div id="bookmarks-page-content" class="page-content"><!-- Rendered by bookmarks.js --></div>
+      </section>
+
+      <section id="page-lecture-browser" class="page hidden" data-page="lecture-browser" aria-labelledby="browser-page-heading">
+        <h1 id="browser-page-heading" class="page-title">Browse Lectures</h1>
+        <div id="lecture-browser-content" class="page-content"><!-- Rendered by lecture-browser.js --></div>
+      </section>
+
+      <section id="page-lecture-detail" class="page hidden" data-page="lecture-detail" aria-labelledby="detail-page-heading">
+        <h1 id="detail-page-heading" class="page-title">Lecture Detail</h1>
+        <div id="lecture-detail-content" class="page-content"><!-- Rendered by lecture-detail.js --></div>
+      </section>
+
+      <section id="page-exam" class="page hidden" data-page="exam" aria-labelledby="exam-page-heading">
+        <h1 id="exam-page-heading" class="page-title sr-only">Exam</h1>
+        <div id="exam-page-content" class="page-content"><!-- Rendered by exam.js --></div>
+      </section>
+
+      <section id="page-results" class="page hidden" data-page="results" aria-labelledby="results-page-heading">
+        <h1 id="results-page-heading" class="page-title">Exam Results</h1>
+        <div id="results-page-content" class="page-content"><!-- Rendered by results.js --></div>
+      </section>
+
+      <section id="page-study-questions" class="page hidden" data-page="study-questions" aria-labelledby="study-page-heading">
+        <h1 id="study-page-heading" class="page-title">Study Questions Bank</h1>
+        <div id="study-questions-page-content" class="page-content"><!-- Rendered by study-questions.js --></div>
+      </section>
+
+      <section id="page-settings" class="page hidden" data-page="settings" aria-labelledby="settings-page-heading">
+        <h1 id="settings-page-heading" class="page-title">Settings</h1>
+        <div id="settings-page-content" class="page-content"><!-- Rendered by settings.js --></div>
+      </section>
+
+    </main>
+    <!-- /main-content -->
+
+  </div>
+  <!-- /app-shell -->
+
+  <!-- ╔══════════════════════════════════════════╗
+       ║                FOOTER                    ║
+       ╚══════════════════════════════════════════╝ -->
+  <footer id="app-footer" class="app-footer" role="contentinfo">
+    <div class="app-footer__inner">
+      <div class="app-footer__brand">
+        <span aria-hidden="true">🧠</span>
+        <span>Applied Deep Learning Exam Platform</span>
+      </div>
+      <nav class="app-footer__nav" aria-label="Footer navigation">
+        <a href="#dashboard" class="app-footer__link" data-page="dashboard">Dashboard</a>
+        <a href="#progress" class="app-footer__link" data-page="progress">Progress</a>
+        <a href="#bookmarks" class="app-footer__link" data-page="bookmarks">Bookmarks</a>
+        <a href="#settings" class="app-footer__link" data-page="settings">Settings</a>
+      </nav>
+      <p class="app-footer__copy">
+        <small>&copy; <span id="footer-year">2025</span> ADL Platform. Built for students, by students.</small>
+      </p>
+    </div>
+  </footer>
+  <!-- /footer -->
+
+
+  <!-- ═══════════════════════════════════════════
+       JAVASCRIPT — CORE (load order matters)
+  ════════════════════════════════════════════ -->
+
+  <!-- Core utilities -->
+  <script src="js/core/event-bus.js"></script>
+  <script src="js/core/storage.js"></script>
+  <script src="js/core/state.js"></script>
+  <script src="js/core/router.js"></script>
+
+  <!-- Utility helpers -->
+  <script src="js/utils/date-formatter.js"></script>
+  <script src="js/utils/shuffle.js"></script>
+  <script src="js/utils/filter.js"></script>
+  <script src="js/utils/search.js"></script>
+  <script src="js/utils/statistics.js"></script>
+  <script src="js/utils/exporter.js"></script>
+
+  <!-- UI Components -->
+  <script src="js/components/toast.js"></script>
+  <script src="js/components/modal.js"></script>
+  <script src="js/components/sidebar.js"></script>
+  <script src="js/components/timer.js"></script>
+  <script src="js/components/progress-ring.js"></script>
+  <script src="js/components/question-card.js"></script>
+  <script src="js/components/chart-renderer.js"></script>
+
+  <!-- Page controllers -->
+  <script src="js/pages/dashboard.js"></script>
+  <script src="js/pages/lecture-browser.js"></script>
+  <script src="js/pages/lecture-detail.js"></script>
+  <script src="js/pages/exam.js"></script>
+  <script src="js/pages/results.js"></script>
+  <script src="js/pages/progress.js"></script>
+  <script src="js/pages/bookmarks.js"></script>
+  <script src="js/pages/study-questions.js"></script>
+  <script src="js/pages/settings.js"></script>
+
+</body>
+</html>
