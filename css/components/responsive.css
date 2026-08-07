@@ -1,1 +1,1720 @@
+/* ============================================================
+   css/components/responsive.css — Responsive Design Rules
+   Applied Deep Learning Platform
+   ============================================================ */
 
+/* ── 1. Breakpoint Variables ────────────────────────────────── */
+/* 
+   Breakpoints:
+   - xs: 0 - 480px
+   - sm: 481px - 768px
+   - md: 769px - 1024px
+   - lg: 1025px - 1280px
+   - xl: 1281px +
+*/
+
+/* ── 2. Base Responsive Typography ──────────────────────────── */
+@media (max-width: 1280px) {
+    :root {
+        --text-xs: 0.7rem;
+        --text-sm: 0.8rem;
+        --text-base: 0.9rem;
+        --text-lg: 1.05rem;
+        --text-xl: 1.2rem;
+        --text-2xl: 1.5rem;
+        --text-3xl: 1.8rem;
+        --text-4xl: 2.2rem;
+        --text-5xl: 2.8rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    :root {
+        --text-xs: 0.65rem;
+        --text-sm: 0.75rem;
+        --text-base: 0.85rem;
+        --text-lg: 1rem;
+        --text-xl: 1.15rem;
+        --text-2xl: 1.4rem;
+        --text-3xl: 1.6rem;
+        --text-4xl: 2rem;
+        --text-5xl: 2.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --text-xs: 0.6rem;
+        --text-sm: 0.7rem;
+        --text-base: 0.8rem;
+        --text-lg: 0.95rem;
+        --text-xl: 1.1rem;
+        --text-2xl: 1.3rem;
+        --text-3xl: 1.5rem;
+        --text-4xl: 1.8rem;
+        --text-5xl: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --text-xs: 0.55rem;
+        --text-sm: 0.65rem;
+        --text-base: 0.75rem;
+        --text-lg: 0.85rem;
+        --text-xl: 1rem;
+        --text-2xl: 1.2rem;
+        --text-3xl: 1.3rem;
+        --text-4xl: 1.6rem;
+        --text-5xl: 1.8rem;
+    }
+}
+
+/* ── 3. Responsive Spacing ──────────────────────────────────── */
+@media (max-width: 1280px) {
+    :root {
+        --space-1: 0.2rem;
+        --space-1-5: 0.3rem;
+        --space-2: 0.4rem;
+        --space-2-5: 0.5rem;
+        --space-3: 0.6rem;
+        --space-4: 0.8rem;
+        --space-5: 1rem;
+        --space-6: 1.2rem;
+        --space-8: 1.6rem;
+        --space-10: 2rem;
+        --space-12: 2.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --space-1: 0.15rem;
+        --space-1-5: 0.25rem;
+        --space-2: 0.35rem;
+        --space-2-5: 0.4rem;
+        --space-3: 0.5rem;
+        --space-4: 0.7rem;
+        --space-5: 0.85rem;
+        --space-6: 1rem;
+        --space-8: 1.4rem;
+        --space-10: 1.6rem;
+        --space-12: 2rem;
+    }
+}
+
+/* ── 4. General Layout ──────────────────────────────────────── */
+/* Container max-width adjustments */
+@media (max-width: 1280px) {
+    .container {
+        max-width: 100%;
+        padding: 0 var(--space-4);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 var(--space-3);
+    }
+}
+
+/* ── 5. Sidebar Behavior ────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100vh;
+        z-index: 100;
+        transition: left var(--transition-base);
+        box-shadow: var(--shadow-lg);
+        overflow-y: auto;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(4px);
+        z-index: 99;
+    }
+
+    .sidebar-backdrop.active {
+        display: block;
+    }
+
+    /* Sidebar toggle button */
+    .sidebar-toggle {
+        display: flex !important;
+        position: fixed;
+        top: var(--space-4);
+        left: var(--space-4);
+        z-index: 98;
+        padding: var(--space-2);
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-md);
+        color: var(--text-primary);
+        cursor: pointer;
+        font-size: 1.2rem;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .sidebar-toggle:hover {
+        background: var(--bg-surface-alt);
+    }
+}
+
+@media (min-width: 1025px) {
+    .sidebar-toggle {
+        display: none !important;
+    }
+
+    .sidebar-backdrop {
+        display: none !important;
+    }
+}
+
+/* ── 6. Navbar Behavior ─────────────────────────────────────── */
+@media (max-width: 768px) {
+    .navbar {
+        padding: var(--space-2) var(--space-3);
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+
+    .navbar-brand {
+        font-size: var(--text-base);
+    }
+
+    .navbar-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: var(--space-2);
+        padding-top: var(--space-2);
+        border-top: 1px solid var(--border-color);
+    }
+
+    .navbar-links.open {
+        display: flex;
+    }
+
+    .navbar-links a {
+        padding: var(--space-2) var(--space-3);
+        width: 100%;
+    }
+
+    .navbar-toggle {
+        display: flex !important;
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-primary);
+    }
+}
+
+@media (min-width: 769px) {
+    .navbar-toggle {
+        display: none !important;
+    }
+
+    .navbar-links {
+        display: flex !important;
+        flex-direction: row;
+        width: auto;
+        padding-top: 0;
+        border-top: none;
+    }
+}
+
+/* ── 7. Dashboard Responsive ────────────────────────────────── */
+@media (max-width: 1280px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-4);
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-3);
+    }
+
+    .stat-card {
+        padding: var(--space-4);
+    }
+
+    .stat-card .stat-value {
+        font-size: var(--text-2xl);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-2);
+    }
+
+    .stat-card {
+        padding: var(--space-3);
+    }
+
+    .stat-card .stat-value {
+        font-size: var(--text-xl);
+    }
+
+    .stat-card .stat-label {
+        font-size: var(--text-xs);
+    }
+
+    .stat-card .stat-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+    }
+
+    .welcome-section {
+        padding: var(--space-4);
+    }
+
+    .welcome-section h2 {
+        font-size: var(--text-xl);
+    }
+
+    .welcome-section p {
+        font-size: var(--text-sm);
+    }
+
+    .welcome-stats {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .quick-actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-2);
+    }
+
+    .quick-action-card {
+        padding: var(--space-3);
+    }
+
+    .quick-action-card .quick-action-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .progress-card {
+        padding: var(--space-3);
+    }
+
+    .lecture-completion-item {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+        padding: var(--space-2);
+    }
+
+    .lecture-completion-item .lecture-week-badge {
+        width: 32px;
+        height: 32px;
+        font-size: var(--text-xs);
+    }
+
+    .recent-activity {
+        padding: var(--space-3);
+    }
+
+    .activity-item {
+        padding: var(--space-2) 0;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+    }
+
+    .quick-actions-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-1-5);
+    }
+
+    .quick-action-card {
+        padding: var(--space-2);
+    }
+
+    .quick-action-card .quick-action-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    .quick-action-title {
+        font-size: var(--text-xs);
+    }
+
+    .quick-action-sub {
+        font-size: 9px;
+    }
+}
+
+/* ── 8. Lecture Cards Responsive ────────────────────────────── */
+@media (max-width: 1024px) {
+    .lecture-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-4);
+    }
+}
+
+@media (max-width: 768px) {
+    .lecture-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+
+    .lecture-card {
+        padding: var(--space-3);
+    }
+
+    .lecture-card .lecture-week-badge {
+        width: 44px;
+        height: 44px;
+        font-size: var(--text-xs);
+    }
+
+    .lecture-card .lecture-title {
+        font-size: var(--text-sm);
+    }
+
+    .lecture-card .lecture-description {
+        font-size: var(--text-xs);
+        -webkit-line-clamp: 2;
+    }
+
+    .lecture-card .lecture-meta-row {
+        flex-wrap: wrap;
+        gap: var(--space-1-5);
+    }
+
+    .lecture-card .lecture-badges {
+        flex-wrap: wrap;
+    }
+
+    .lecture-card .lecture-card-actions {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .lecture-card .lecture-card-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ── 9. Question Cards Responsive ────────────────────────────── */
+@media (max-width: 1024px) {
+    .question-container {
+        padding: var(--space-4);
+    }
+}
+
+@media (max-width: 768px) {
+    .question-container {
+        padding: var(--space-3);
+        gap: var(--space-3);
+    }
+
+    .question-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-2);
+    }
+
+    .question-header-left {
+        flex-wrap: wrap;
+    }
+
+    .question-text {
+        font-size: var(--text-base);
+    }
+
+    .question-options {
+        gap: var(--space-2);
+    }
+
+    .option-item {
+        padding: var(--space-2) var(--space-3);
+        border-width: 1px;
+    }
+
+    .option-item .option-label {
+        width: 28px;
+        height: 28px;
+        font-size: var(--text-xs);
+    }
+
+    .option-item .option-text {
+        font-size: var(--text-sm);
+    }
+
+    .question-explanation {
+        padding: var(--space-3);
+    }
+
+    .question-explanation .question-explanation-text {
+        font-size: var(--text-sm);
+    }
+
+    .question-navigation {
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+
+    .question-nav-buttons {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .question-nav-buttons .btn-nav {
+        flex: 1;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .question-container {
+        padding: var(--space-2);
+        gap: var(--space-2);
+    }
+
+    .question-text {
+        font-size: var(--text-sm);
+    }
+
+    .option-item {
+        padding: var(--space-1-5) var(--space-2);
+    }
+
+    .option-item .option-label {
+        width: 24px;
+        height: 24px;
+        font-size: 9px;
+    }
+
+    .option-item .option-text {
+        font-size: var(--text-xs);
+    }
+
+    .question-explanation {
+        padding: var(--space-2);
+    }
+
+    .question-explanation .question-explanation-text {
+        font-size: var(--text-xs);
+    }
+
+    .question-nav-buttons .btn-nav {
+        font-size: var(--text-xs);
+        padding: var(--space-1-5) var(--space-2);
+    }
+}
+
+/* ── 10. Exam Interface Responsive ──────────────────────────── */
+@media (max-width: 1024px) {
+    .exam-main {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+
+    .exam-navigation-panel {
+        position: static;
+        max-height: 280px;
+        overflow-y: auto;
+    }
+
+    .exam-nav-grid {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .exam-container {
+        padding: var(--space-3);
+        gap: var(--space-3);
+    }
+
+    .exam-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-2);
+        padding: var(--space-3);
+    }
+
+    .exam-header-left {
+        gap: var(--space-2);
+    }
+
+    .exam-header-left .exam-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+    }
+
+    .exam-header-info .exam-title {
+        font-size: var(--text-base);
+    }
+
+    .exam-header-info .exam-subtitle {
+        font-size: var(--text-xs);
+    }
+
+    .exam-header-right {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .exam-timer {
+        font-size: var(--text-xs);
+        padding: var(--space-1) var(--space-3);
+    }
+
+    .exam-question-area {
+        padding: var(--space-3);
+    }
+
+    .exam-question-text {
+        font-size: var(--text-base);
+    }
+
+    .exam-option {
+        padding: var(--space-2) var(--space-3);
+        border-width: 1px;
+    }
+
+    .exam-option .option-marker {
+        width: 28px;
+        height: 28px;
+        font-size: var(--text-xs);
+    }
+
+    .exam-option .option-text {
+        font-size: var(--text-sm);
+    }
+
+    .exam-controls {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .exam-controls-left,
+    .exam-controls-right {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .exam-controls .btn-exam-nav,
+    .exam-controls .btn-exam-flag,
+    .exam-controls .btn-exam-submit {
+        flex: 1;
+        justify-content: center;
+        font-size: var(--text-xs);
+        padding: var(--space-1-5) var(--space-3);
+        min-width: 60px;
+    }
+
+    .exam-nav-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: var(--space-1-5);
+    }
+
+    .exam-nav-btn {
+        min-height: 32px;
+        font-size: var(--text-xs);
+        padding: var(--space-1);
+    }
+
+    .exam-progress-bar {
+        padding: var(--space-2) var(--space-3);
+    }
+
+    .exam-progress-header {
+        font-size: var(--text-xs);
+    }
+}
+
+@media (max-width: 480px) {
+    .exam-container {
+        padding: var(--space-2);
+        gap: var(--space-2);
+    }
+
+    .exam-header {
+        padding: var(--space-2);
+    }
+
+    .exam-header-left .exam-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    .exam-header-info .exam-title {
+        font-size: var(--text-sm);
+    }
+
+    .exam-timer {
+        font-size: 9px;
+        padding: var(--space-0-5) var(--space-2);
+    }
+
+    .exam-question-area {
+        padding: var(--space-2);
+    }
+
+    .exam-question-text {
+        font-size: var(--text-sm);
+    }
+
+    .exam-option {
+        padding: var(--space-1-5) var(--space-2);
+    }
+
+    .exam-option .option-marker {
+        width: 24px;
+        height: 24px;
+        font-size: 9px;
+    }
+
+    .exam-option .option-text {
+        font-size: var(--text-xs);
+    }
+
+    .exam-nav-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: var(--space-1);
+    }
+
+    .exam-nav-btn {
+        min-height: 28px;
+        font-size: 9px;
+        padding: var(--space-0-5);
+    }
+
+    .exam-controls .btn-exam-nav,
+    .exam-controls .btn-exam-flag,
+    .exam-controls .btn-exam-submit {
+        font-size: 9px;
+        padding: var(--space-1) var(--space-2);
+        min-width: 50px;
+    }
+}
+
+/* ── 11. Results Page Responsive ────────────────────────────── */
+@media (max-width: 1024px) {
+    .score-summary-card {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+        text-align: center;
+    }
+
+    .score-summary-card .score-details {
+        align-items: center;
+    }
+
+    .score-detail-item {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .results-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-3);
+    }
+
+    .performance-analysis {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+
+    .chart-container {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .results-page {
+        padding: var(--space-3);
+        gap: var(--space-3);
+    }
+
+    .score-summary-card {
+        padding: var(--space-4);
+        gap: var(--space-3);
+    }
+
+    .score-summary-card .final-score-display .score-number {
+        font-size: var(--text-3xl);
+    }
+
+    .score-summary-card .grade-badge {
+        width: 60px;
+        height: 60px;
+        font-size: var(--text-2xl);
+    }
+
+    .results-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-2);
+    }
+
+    .results-stat-card {
+        padding: var(--space-2);
+    }
+
+    .results-stat-card .stat-number {
+        font-size: var(--text-xl);
+    }
+
+    .results-stat-card .stat-label {
+        font-size: var(--text-xs);
+    }
+
+    .analysis-card {
+        padding: var(--space-3);
+    }
+
+    .analysis-card-header .header-title {
+        font-size: var(--text-sm);
+    }
+
+    .topic-performance-item .topic-name {
+        font-size: var(--text-xs);
+    }
+
+    .topic-performance-item .topic-score {
+        font-size: var(--text-xs);
+    }
+
+    .chart-container {
+        padding: var(--space-3);
+    }
+
+    .chart-container .chart-title {
+        font-size: var(--text-sm);
+    }
+
+    .chart-placeholder {
+        height: 180px;
+    }
+
+    .question-review-item {
+        padding: var(--space-3);
+    }
+
+    .review-item-question {
+        font-size: var(--text-sm);
+    }
+
+    .review-answer {
+        font-size: var(--text-xs);
+        padding: var(--space-1) var(--space-1-5);
+    }
+
+    .review-explanation {
+        font-size: var(--text-xs);
+        padding: var(--space-2);
+    }
+
+    .results-actions {
+        flex-direction: column;
+        gap: var(--space-2);
+        padding: var(--space-3) 0;
+    }
+
+    .results-actions .btn-results {
+        width: 100%;
+        justify-content: center;
+        font-size: var(--text-sm);
+        padding: var(--space-2) var(--space-4);
+    }
+}
+
+@media (max-width: 480px) {
+    .results-page {
+        padding: var(--space-2);
+        gap: var(--space-2);
+    }
+
+    .score-summary-card {
+        padding: var(--space-3);
+        gap: var(--space-2);
+    }
+
+    .score-summary-card .final-score-display .score-number {
+        font-size: var(--text-2xl);
+    }
+
+    .score-summary-card .grade-badge {
+        width: 50px;
+        height: 50px;
+        font-size: var(--text-xl);
+    }
+
+    .results-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-1-5);
+    }
+
+    .results-stat-card .stat-number {
+        font-size: var(--text-lg);
+    }
+
+    .results-stat-card .stat-label {
+        font-size: 9px;
+    }
+
+    .results-stat-card .stat-icon {
+        font-size: 1.2rem;
+    }
+
+    .analysis-card {
+        padding: var(--space-2);
+    }
+
+    .topic-performance-item .topic-bar {
+        width: 40px;
+    }
+
+    .chart-placeholder {
+        height: 140px;
+    }
+
+    .question-review-item {
+        padding: var(--space-2);
+    }
+
+    .review-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-1);
+    }
+
+    .review-item-question {
+        font-size: var(--text-xs);
+    }
+
+    .review-answer {
+        font-size: 9px;
+    }
+
+    .review-explanation {
+        font-size: 9px;
+    }
+
+    .results-actions .btn-results {
+        font-size: var(--text-xs);
+        padding: var(--space-1-5) var(--space-3);
+    }
+}
+
+/* ── 12. Study Questions Page Responsive ────────────────────── */
+@media (max-width: 768px) {
+    .study-questions-page {
+        padding: var(--space-3);
+        gap: var(--space-3);
+    }
+
+    .study-page-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-2);
+        padding: var(--space-3);
+    }
+
+    .study-page-header-left {
+        gap: var(--space-2);
+    }
+
+    .study-page-header-left .header-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .study-page-header-info h1 {
+        font-size: var(--text-lg);
+    }
+
+    .study-page-header-info p {
+        font-size: var(--text-xs);
+    }
+
+    .study-page-header-right {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .study-search-section {
+        padding: var(--space-3);
+        gap: var(--space-2);
+    }
+
+    .study-search-bar {
+        padding: 0 var(--space-2);
+    }
+
+    .study-search-bar input {
+        font-size: var(--text-sm);
+        padding: var(--space-1-5) var(--space-1);
+    }
+
+    .study-search-filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-2);
+    }
+
+    .study-filter-group {
+        flex-wrap: wrap;
+    }
+
+    .study-filter-btn {
+        font-size: var(--text-xs);
+        padding: var(--space-0-5) var(--space-2);
+    }
+
+    .category-badges {
+        gap: var(--space-1);
+    }
+
+    .category-badge {
+        font-size: var(--text-xs);
+        padding: var(--space-0-5) var(--space-1-5);
+    }
+
+    .study-question-card {
+        padding: var(--space-3);
+        gap: var(--space-2);
+    }
+
+    .study-question-card-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-1-5);
+    }
+
+    .study-question-meta {
+        flex-wrap: wrap;
+        gap: var(--space-1-5);
+    }
+
+    .study-question-preview {
+        font-size: var(--text-sm);
+        -webkit-line-clamp: 3;
+    }
+
+    .study-question-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-1-5);
+    }
+
+    .study-question-actions {
+        justify-content: flex-end;
+    }
+
+    .btn-study-action {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+
+    .empty-study-bank {
+        padding: var(--space-6) var(--space-3);
+    }
+
+    .empty-study-bank .empty-icon {
+        font-size: 2.5rem;
+    }
+
+    .empty-study-bank .empty-title {
+        font-size: var(--text-lg);
+    }
+
+    .empty-study-bank .empty-description {
+        font-size: var(--text-xs);
+    }
+
+    .empty-study-bank .empty-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .empty-study-bank .btn-empty-action {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .study-questions-page {
+        padding: var(--space-2);
+        gap: var(--space-2);
+    }
+
+    .study-page-header {
+        padding: var(--space-2);
+    }
+
+    .study-page-header-left .header-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    .study-page-header-info h1 {
+        font-size: var(--text-base);
+    }
+
+    .study-search-section {
+        padding: var(--space-2);
+    }
+
+    .study-filter-btn {
+        font-size: 9px;
+        padding: var(--space-0-5) var(--space-1-5);
+    }
+
+    .category-badge {
+        font-size: 9px;
+        padding: var(--space-0-5) var(--space-1);
+    }
+
+    .study-question-card {
+        padding: var(--space-2);
+    }
+
+    .study-question-preview {
+        font-size: var(--text-xs);
+    }
+
+    .study-tag {
+        font-size: 8px;
+        padding: 1px var(--space-1);
+    }
+
+    .study-question-count {
+        font-size: 9px;
+        padding: var(--space-0-5) var(--space-1-5);
+    }
+
+    .btn-study-action {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+}
+
+/* ── 13. Modal Responsive ────────────────────────────────────── */
+@media (max-width: 768px) {
+    .modal-overlay {
+        padding: var(--space-2);
+        align-items: flex-end;
+    }
+
+    .modal-container {
+        max-height: 95vh;
+        border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .modal-container.sm,
+    .modal-container.md,
+    .modal-container.lg,
+    .modal-container.xl {
+        max-width: 100%;
+    }
+
+    .modal-header {
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .modal-header .modal-title {
+        font-size: var(--text-base);
+    }
+
+    .modal-header .modal-header-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    .modal-body {
+        padding: var(--space-4);
+        max-height: 60vh;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-2);
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .modal-footer .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .confirmation-modal .modal-body {
+        padding: var(--space-4);
+    }
+
+    .confirmation-modal .confirmation-icon {
+        font-size: 2.5rem;
+    }
+
+    .confirmation-modal .confirmation-title {
+        font-size: var(--text-lg);
+    }
+
+    .confirmation-modal .confirmation-text {
+        font-size: var(--text-sm);
+    }
+
+    .filter-options {
+        gap: var(--space-1-5);
+    }
+
+    .filter-option {
+        font-size: var(--text-xs);
+        padding: var(--space-0-5) var(--space-2);
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-overlay {
+        padding: var(--space-1);
+    }
+
+    .modal-header {
+        padding: var(--space-2) var(--space-3);
+    }
+
+    .modal-header .modal-title {
+        font-size: var(--text-sm);
+    }
+
+    .modal-header .modal-header-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+
+    .modal-close-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+
+    .modal-body {
+        padding: var(--space-3);
+        font-size: var(--text-sm);
+    }
+
+    .modal-footer {
+        padding: var(--space-2) var(--space-3);
+        gap: var(--space-1-5);
+    }
+
+    .modal-footer .btn {
+        font-size: var(--text-xs);
+        padding: var(--space-1-5) var(--space-3);
+    }
+
+    .confirmation-modal .confirmation-icon {
+        font-size: 2rem;
+    }
+
+    .confirmation-modal .confirmation-title {
+        font-size: var(--text-base);
+    }
+
+    .confirmation-modal .confirmation-text {
+        font-size: var(--text-xs);
+    }
+
+    .filter-option {
+        font-size: 9px;
+        padding: var(--space-0-5) var(--space-1-5);
+    }
+}
+
+/* ── 14. Toast Responsive ────────────────────────────────────── */
+@media (max-width: 768px) {
+    .toast-container {
+        top: var(--space-2);
+        right: var(--space-2);
+        left: var(--space-2);
+        max-width: none;
+        width: auto;
+        gap: var(--space-1-5);
+    }
+
+    .toast-container.bottom {
+        top: auto;
+        bottom: var(--space-2);
+    }
+
+    .toast-container.left,
+    .toast-container.center {
+        left: var(--space-2);
+        right: var(--space-2);
+        transform: none;
+    }
+
+    .toast {
+        padding: var(--space-2) var(--space-3);
+        min-height: 48px;
+        border-radius: var(--border-radius-md);
+        gap: var(--space-2);
+    }
+
+    .toast .toast-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+
+    .toast .toast-title {
+        font-size: var(--text-xs);
+    }
+
+    .toast .toast-message {
+        font-size: var(--text-xs);
+    }
+
+    .toast .toast-close-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+
+    .toast .toast-progress {
+        height: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .toast-container {
+        top: var(--space-1);
+        right: var(--space-1);
+        left: var(--space-1);
+        gap: var(--space-1);
+    }
+
+    .toast-container.bottom {
+        bottom: var(--space-1);
+    }
+
+    .toast {
+        padding: var(--space-1-5) var(--space-2);
+        min-height: 40px;
+        border-radius: var(--border-radius-sm);
+        gap: var(--space-1-5);
+    }
+
+    .toast .toast-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+
+    .toast .toast-title {
+        font-size: 9px;
+    }
+
+    .toast .toast-message {
+        font-size: 9px;
+    }
+
+    .toast .toast-close-btn {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+    }
+}
+
+/* ── 15. Charts and Progress Responsive ────────────────────── */
+@media (max-width: 768px) {
+    .chart-container .chart-canvas-wrap {
+        height: 160px;
+    }
+
+    .circular-progress-ring.sm {
+        width: 60px;
+        height: 60px;
+    }
+
+    .circular-progress-ring.md {
+        width: 100px;
+        height: 100px;
+    }
+
+    .circular-progress-ring.lg {
+        width: 120px;
+        height: 120px;
+    }
+
+    .ring-center .ring-value {
+        font-size: var(--text-xl);
+    }
+
+    .ring-center .ring-label {
+        font-size: 9px;
+    }
+
+    .progress-bar-track {
+        height: 6px;
+    }
+
+    .progress-bar-label {
+        font-size: var(--text-xs);
+    }
+
+    .score-display .score-value {
+        font-size: var(--text-3xl);
+    }
+
+    .timeline::before {
+        left: 12px;
+    }
+
+    .timeline-item {
+        padding-left: var(--space-3);
+    }
+
+    .timeline-item::before {
+        width: 10px;
+        height: 10px;
+        left: -4px;
+    }
+
+    .achievement-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: var(--space-2);
+    }
+
+    .achievement-item {
+        padding: var(--space-2);
+    }
+
+    .achievement-item .achievement-icon {
+        font-size: 1.5rem;
+    }
+
+    .stats-widget-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-2);
+    }
+
+    .stat-item {
+        padding: var(--space-2);
+    }
+
+    .stat-item .stat-number {
+        font-size: var(--text-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-container .chart-canvas-wrap {
+        height: 140px;
+    }
+
+    .circular-progress-ring.md {
+        width: 80px;
+        height: 80px;
+    }
+
+    .circular-progress-ring.lg {
+        width: 100px;
+        height: 100px;
+    }
+
+    .ring-center .ring-value {
+        font-size: var(--text-lg);
+    }
+
+    .score-display .score-value {
+        font-size: var(--text-2xl);
+    }
+
+    .stats-widget-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-1-5);
+    }
+
+    .achievement-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-1-5);
+    }
+
+    .completion-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+    }
+
+    .completion-card .completion-card-progress {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-1);
+    }
+}
+
+/* ── 16. Buttons and Controls Responsive ────────────────────── */
+@media (max-width: 768px) {
+    .btn {
+        padding: var(--space-1-5) var(--space-4);
+        font-size: var(--text-sm);
+    }
+
+    .btn-lg {
+        padding: var(--space-2) var(--space-5);
+        font-size: var(--text-base);
+    }
+
+    .btn-sm {
+        padding: var(--space-1) var(--space-3);
+        font-size: var(--text-xs);
+    }
+
+    .btn-group {
+        flex-wrap: wrap;
+        gap: var(--space-1-5);
+    }
+
+    .btn-group .btn {
+        flex: 1;
+        min-width: 80px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn {
+        padding: var(--space-1) var(--space-3);
+        font-size: var(--text-xs);
+    }
+
+    .btn-lg {
+        padding: var(--space-1-5) var(--space-4);
+        font-size: var(--text-sm);
+    }
+
+    .btn-sm {
+        padding: var(--space-0-5) var(--space-2);
+        font-size: 9px;
+    }
+
+    .btn-group .btn {
+        min-width: 60px;
+        font-size: var(--text-xs);
+    }
+}
+
+/* ── 17. Print Styles ────────────────────────────────────────── */
+@media print {
+    .sidebar,
+    .sidebar-toggle,
+    .navbar-toggle,
+    .exam-controls,
+    .results-actions,
+    .toast-container,
+    .modal-overlay {
+        display: none !important;
+    }
+
+    .exam-page,
+    .results-page,
+    .study-questions-page {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .exam-container,
+    .results-page,
+    .study-questions-page {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .question-container,
+    .exam-question-area,
+    .score-summary-card,
+    .analysis-card,
+    .chart-container {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .question-review-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border: 1px solid #eee !important;
+    }
+
+    .grade-badge {
+        border: 2px solid #000 !important;
+    }
+
+    .score-summary-card {
+        page-break-after: avoid;
+    }
+}
+
+/* ── 18. Reduced Motion Overrides ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .sidebar {
+        transition: none !important;
+    }
+
+    .toast {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .toast.exiting {
+        opacity: 0 !important;
+        max-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .modal-overlay {
+        animation: none !important;
+    }
+
+    .modal-container {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .modal-container.closing {
+        opacity: 0 !important;
+    }
+
+    .progress-bar-fill,
+    .exam-progress-fill,
+    .topic-performance-item .topic-bar .bar-fill {
+        transition: none !important;
+    }
+
+    .progress-bar-fill::after {
+        animation: none !important;
+        display: none !important;
+    }
+
+    .exam-timer.danger {
+        animation: none !important;
+    }
+
+    .achievement-item.unlocked .achievement-icon {
+        animation: none !important;
+    }
+
+    .stat-card:hover,
+    .lecture-card:hover,
+    .study-question-card:hover {
+        transform: none !important;
+        transition: none !important;
+    }
+
+    .btn:hover,
+    .btn-exam-nav:hover,
+    .btn-results:hover {
+        transform: none !important;
+        transition: none !important;
+    }
+
+    .modal-close-btn:hover {
+        transform: none !important;
+    }
+
+    .timeline-item.in-progress::before {
+        animation: none !important;
+    }
+
+    .progress-step.current {
+        animation: none !important;
+    }
+
+    .filter-option:hover,
+    .category-badge:hover {
+        transform: none !important;
+    }
+}
+
+/* ── 19. Dark Mode Print Overrides ──────────────────────────── */
+@media print and (prefers-color-scheme: dark) {
+    body {
+        background: #fff !important;
+        color: #000 !important;
+    }
+
+    .bg-surface,
+    .bg-secondary,
+    .bg-primary {
+        background: #fff !important;
+    }
+
+    .text-primary,
+    .text-secondary,
+    .text-muted {
+        color: #000 !important;
+    }
+
+    .border-color {
+        border-color: #ddd !important;
+    }
+
+    .grade-badge.excellent,
+    .grade-badge.good,
+    .grade-badge.average,
+    .grade-badge.poor {
+        background: #f5f5f5 !important;
+        color: #000 !important;
+    }
+}
