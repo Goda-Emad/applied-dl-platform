@@ -1,1 +1,466 @@
+/* ============================================================
+   css/components/sidebar.css — Sidebar Component
+   Applied Deep Learning Platform
+   ============================================================ */
 
+
+/* ── 1. Sidebar Container ───────────────────────────────────── */
+#sidebar {
+  display:        flex;
+  flex-direction: column;
+  background:     var(--bg-surface);
+  border-right:   1px solid var(--border-color);
+  width:          var(--sidebar-width);
+  transition:     width var(--transition-sidebar),
+                  transform var(--transition-sidebar);
+  overflow:       hidden;
+  user-select:    none;
+}
+
+/* Prevent text flash during collapse transition */
+#sidebar * {
+  transition: opacity var(--transition-base),
+              transform var(--transition-base);
+}
+
+
+/* ── 2. Sidebar Header (Brand / Logo area) ──────────────────── */
+.sidebar-header {
+  display:         flex;
+  align-items:     center;
+  gap:             var(--space-3);
+  padding:         var(--space-5) var(--space-4);
+  border-bottom:   1px solid var(--border-color);
+  min-height:      var(--navbar-height);
+  flex-shrink:     0;
+  overflow:        hidden;
+}
+
+.sidebar-logo {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           40px;
+  height:          40px;
+  border-radius:   var(--border-radius-md);
+  background:      linear-gradient(
+                     135deg,
+                     var(--color-primary),
+                     var(--color-secondary)
+                   );
+  flex-shrink:     0;
+  box-shadow:      var(--shadow-sm);
+}
+
+.sidebar-logo svg,
+.sidebar-logo img {
+  width:  22px;
+  height: 22px;
+  color:  var(--text-inverse);
+}
+
+.sidebar-brand {
+  display:        flex;
+  flex-direction: column;
+  overflow:       hidden;
+  white-space:    nowrap;
+  opacity:        1;
+  transition:     opacity var(--transition-sidebar);
+}
+
+.sidebar-brand-name {
+  font-size:   var(--text-sm);
+  font-weight: var(--font-bold);
+  color:       var(--text-primary);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+}
+
+.sidebar-brand-sub {
+  font-size:  var(--text-xs);
+  color:      var(--text-muted);
+  margin-top: 2px;
+}
+
+
+/* ── 3. Sidebar Body (Scrollable nav area) ──────────────────── */
+.sidebar-body {
+  flex:       1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding:    var(--space-3) var(--space-2);
+  display:    flex;
+  flex-direction: column;
+  gap:        var(--space-1);
+}
+
+/* Custom scrollbar inside sidebar */
+.sidebar-body::-webkit-scrollbar       { width: 4px; }
+.sidebar-body::-webkit-scrollbar-track { background: transparent; }
+.sidebar-body::-webkit-scrollbar-thumb {
+  background:    var(--border-color);
+  border-radius: var(--border-radius-full);
+}
+
+
+/* ── 4. Navigation Section Labels ───────────────────────────── */
+.nav-section-label {
+  font-size:      var(--text-xs);
+  font-weight:    var(--font-semibold);
+  color:          var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding:        var(--space-4) var(--space-3) var(--space-2);
+  white-space:    nowrap;
+  overflow:       hidden;
+  opacity:        1;
+  transition:     opacity var(--transition-sidebar),
+                  height  var(--transition-sidebar);
+}
+
+
+/* ── 5. Navigation Links ────────────────────────────────────── */
+.nav-link {
+  display:       flex;
+  align-items:   center;
+  gap:           var(--space-3);
+  padding:       var(--space-2) var(--space-3);
+  border-radius: var(--border-radius-md);
+  color:         var(--text-secondary);
+  font-size:     var(--text-sm);
+  font-weight:   var(--font-medium);
+  white-space:   nowrap;
+  overflow:      hidden;
+  cursor:        pointer;
+  position:      relative;
+  border:        1px solid transparent;
+  transition:    background    var(--transition-fast),
+                 color         var(--transition-fast),
+                 border-color  var(--transition-fast),
+                 box-shadow    var(--transition-fast);
+  text-decoration: none;
+}
+
+/* Left accent bar (hidden by default) */
+.nav-link::before {
+  content:       '';
+  position:      absolute;
+  left:          0;
+  top:           20%;
+  height:        60%;
+  width:         3px;
+  border-radius: 0 var(--border-radius-full) var(--border-radius-full) 0;
+  background:    var(--color-primary);
+  opacity:       0;
+  transition:    opacity var(--transition-fast);
+}
+
+
+/* ── 6. Nav Icon ────────────────────────────────────────────── */
+.nav-icon {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           36px;
+  height:          36px;
+  border-radius:   var(--border-radius-md);
+  flex-shrink:     0;
+  transition:      background var(--transition-fast),
+                   color      var(--transition-fast);
+}
+
+.nav-icon svg {
+  width:  18px;
+  height: 18px;
+  stroke-width: 1.75;
+}
+
+
+/* ── 7. Nav Label & Badge ───────────────────────────────────── */
+.nav-label {
+  flex:       1;
+  overflow:   hidden;
+  text-overflow: ellipsis;
+  white-space:   nowrap;
+  opacity:    1;
+  transition: opacity var(--transition-sidebar);
+}
+
+.nav-badge {
+  display:       inline-flex;
+  align-items:   center;
+  justify-content: center;
+  min-width:     20px;
+  height:        20px;
+  padding:       0 var(--space-1);
+  border-radius: var(--border-radius-full);
+  font-size:     10px;
+  font-weight:   var(--font-bold);
+  background:    var(--color-primary);
+  color:         var(--text-inverse);
+  flex-shrink:   0;
+  opacity:       1;
+  transition:    opacity var(--transition-sidebar);
+}
+
+
+/* ── 8. Hover State ─────────────────────────────────────────── */
+.nav-link:hover {
+  background: var(--bg-surface-alt);
+  color:      var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.nav-link:hover .nav-icon {
+  background: var(--bg-surface-alt);
+  color:      var(--color-primary);
+}
+
+
+/* ── 9. Active State ────────────────────────────────────────── */
+.nav-link.active {
+  background:   rgba(99, 102, 241, 0.08);
+  color:        var(--color-primary);
+  border-color: rgba(99, 102, 241, 0.15);
+}
+
+.nav-link.active::before {
+  opacity: 1;
+}
+
+.nav-link.active .nav-icon {
+  background: rgba(99, 102, 241, 0.12);
+  color:      var(--color-primary);
+}
+
+.nav-link.active .nav-label {
+  font-weight: var(--font-semibold);
+}
+
+/* Active state — dark theme */
+[data-theme="dark"] .nav-link.active {
+  background:   rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+
+/* ── 10. Nav Divider ────────────────────────────────────────── */
+.nav-divider {
+  height:     1px;
+  background: var(--border-color);
+  margin:     var(--space-2) var(--space-3);
+  flex-shrink: 0;
+}
+
+
+/* ── 11. Sidebar Footer ─────────────────────────────────────── */
+.sidebar-footer {
+  padding:      var(--space-3) var(--space-2);
+  border-top:   1px solid var(--border-color);
+  flex-shrink:  0;
+  display:      flex;
+  flex-direction: column;
+  gap:          var(--space-1);
+}
+
+
+/* ── 12. Collapse Toggle Button ─────────────────────────────── */
+.sidebar-toggle {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           32px;
+  height:          32px;
+  border-radius:   var(--border-radius-md);
+  color:           var(--text-muted);
+  background:      transparent;
+  border:          1px solid var(--border-color);
+  cursor:          pointer;
+  flex-shrink:     0;
+  margin-left:     auto;
+  transition:      background    var(--transition-fast),
+                   color         var(--transition-fast),
+                   border-color  var(--transition-fast);
+}
+
+.sidebar-toggle:hover {
+  background:   var(--bg-surface-alt);
+  color:        var(--text-primary);
+  border-color: var(--border-color-strong);
+}
+
+.sidebar-toggle svg {
+  width:      16px;
+  height:     16px;
+  transition: transform var(--transition-sidebar);
+}
+
+
+/* ── 13. Collapsed Sidebar State ────────────────────────────── */
+#sidebar.collapsed {
+  width: var(--sidebar-collapsed);
+}
+
+/* Hide text elements when collapsed */
+#sidebar.collapsed .sidebar-brand,
+#sidebar.collapsed .nav-label,
+#sidebar.collapsed .nav-badge,
+#sidebar.collapsed .nav-section-label {
+  opacity:    0;
+  width:      0;
+  overflow:   hidden;
+  pointer-events: none;
+}
+
+/* Center nav items when collapsed */
+#sidebar.collapsed .nav-link {
+  justify-content: center;
+  padding:         var(--space-2);
+}
+
+/* Center icon when collapsed */
+#sidebar.collapsed .nav-icon {
+  width:  40px;
+  height: 40px;
+}
+
+/* Flip the toggle arrow */
+#sidebar.collapsed .sidebar-toggle svg {
+  transform: rotate(180deg);
+}
+
+/* Hide section labels space entirely */
+#sidebar.collapsed .nav-section-label {
+  height:  0;
+  padding: 0;
+  margin:  0;
+}
+
+/* Tooltip on collapsed nav links */
+#sidebar.collapsed .nav-link {
+  position: relative;
+}
+
+#sidebar.collapsed .nav-link::after {
+  content:         attr(data-tooltip);
+  position:        absolute;
+  left:            calc(var(--sidebar-collapsed) - var(--space-2));
+  top:             50%;
+  transform:       translateY(-50%);
+  background:      var(--text-primary);
+  color:           var(--bg-surface);
+  font-size:       var(--text-xs);
+  font-weight:     var(--font-medium);
+  padding:         var(--space-1) var(--space-3);
+  border-radius:   var(--border-radius-md);
+  white-space:     nowrap;
+  pointer-events:  none;
+  opacity:         0;
+  box-shadow:      var(--shadow-md);
+  z-index:         var(--z-dropdown);
+  transition:      opacity var(--transition-fast);
+}
+
+#sidebar.collapsed .nav-link:hover::after {
+  opacity: 1;
+}
+
+
+/* ── 14. Mobile Overlay ─────────────────────────────────────── */
+.sidebar-overlay {
+  display:    none;
+  position:   fixed;
+  inset:      0;
+  background: var(--bg-overlay);
+  z-index:    calc(var(--z-raised) - 1);
+  backdrop-filter: blur(2px);
+  opacity:    0;
+  transition: opacity var(--transition-base);
+}
+
+.sidebar-overlay.visible {
+  opacity: 1;
+}
+
+
+/* ── 15. Responsive — Mobile ────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Slide sidebar off-screen by default on mobile */
+  #sidebar {
+    transform:  translateX(-100%);
+    width:      var(--sidebar-width) !important; /* override collapsed width */
+    box-shadow: var(--shadow-xl);
+    z-index:    var(--z-overlay);
+  }
+
+  /* Show sidebar when mobile-open class is applied */
+  #sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Show overlay when sidebar is open */
+  #sidebar.mobile-open ~ .sidebar-overlay,
+  body.sidebar-mobile-open .sidebar-overlay {
+    display: block;
+    opacity: 1;
+  }
+
+  /* Reset main-content margin on mobile */
+  #main-content {
+    margin-left: 0 !important;
+  }
+
+  #footer {
+    margin-left: 0 !important;
+  }
+
+  /* Always show labels on mobile (no tooltip needed) */
+  #sidebar.collapsed .sidebar-brand,
+  #sidebar.collapsed .nav-label,
+  #sidebar.collapsed .nav-badge,
+  #sidebar.collapsed .nav-section-label {
+    opacity:  1;
+    width:    auto;
+    overflow: visible;
+  }
+
+  #sidebar.collapsed .nav-link {
+    justify-content: flex-start;
+    padding:         var(--space-2) var(--space-3);
+  }
+
+  /* Hide collapse tooltips on mobile */
+  #sidebar .nav-link::after {
+    display: none;
+  }
+}
+
+
+/* ── 16. Responsive — Tablet ────────────────────────────────── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --sidebar-width: 220px;
+  }
+}
+
+
+/* ── 17. Dark Theme Overrides ───────────────────────────────── */
+[data-theme="dark"] #sidebar {
+  background:   var(--bg-surface);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .sidebar-toggle {
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .sidebar-toggle:hover {
+  background: var(--bg-surface-alt);
+}
+
+[data-theme="dark"] #sidebar.collapsed .nav-link::after {
+  background: var(--bg-surface-alt);
+  color:      var(--text-primary);
+  border:     1px solid var(--border-color);
+}
