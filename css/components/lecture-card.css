@@ -1,1 +1,732 @@
+/* ============================================================
+   css/components/lecture-card.css — Lecture Card Component
+   Applied Deep Learning Platform
+   ============================================================ */
 
+/* ── 1. Lecture Card Container ─────────────────────────────── */
+.lecture-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-6);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    gap: var(--space-4);
+}
+
+.lecture-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-primary);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.lecture-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-color-strong);
+}
+
+.lecture-card:hover::before {
+    opacity: 1;
+}
+
+/* Card variants based on status */
+.lecture-card.status-completed::before {
+    background: var(--color-success);
+    opacity: 1;
+}
+
+.lecture-card.status-in-progress::before {
+    background: var(--color-warning);
+    opacity: 1;
+}
+
+.lecture-card.status-locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.lecture-card.status-locked:hover {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+}
+
+/* ── 2. Card Header ──────────────────────────────────────────── */
+.lecture-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+}
+
+/* Week Number Badge */
+.lecture-week-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 56px;
+    height: 56px;
+    border-radius: var(--border-radius-md);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--text-inverse);
+    flex-shrink: 0;
+    font-weight: var(--font-bold);
+    font-size: var(--text-sm);
+    padding: var(--space-1);
+    line-height: 1.2;
+    text-align: center;
+    transition: transform var(--transition-fast);
+}
+
+.lecture-card:hover .lecture-week-badge {
+    transform: scale(1.05);
+}
+
+.lecture-week-badge .week-number {
+    font-size: var(--text-lg);
+    display: block;
+}
+
+.lecture-week-badge .week-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Status variant badges */
+.lecture-card.status-completed .lecture-week-badge {
+    background: linear-gradient(135deg, var(--color-success), #2ecc71);
+}
+
+.lecture-card.status-in-progress .lecture-week-badge {
+    background: linear-gradient(135deg, var(--color-warning), #f39c12);
+}
+
+.lecture-card.status-locked .lecture-week-badge {
+    background: var(--bg-surface-alt);
+    color: var(--text-muted);
+}
+
+/* Card Title Area */
+.lecture-card-title-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.lecture-card-title {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    line-height: var(--leading-tight);
+    margin-bottom: var(--space-1);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.lecture-card-subtitle {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+.lecture-card-subtitle .divider {
+    color: var(--border-color);
+}
+
+/* ── 3. Card Body ────────────────────────────────────────────── */
+.lecture-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex: 1;
+}
+
+/* Description */
+.lecture-description {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-loose);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: var(--space-1);
+}
+
+/* Metadata Row */
+.lecture-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-2);
+}
+
+.lecture-meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1-5);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+}
+
+.lecture-meta-item svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.lecture-meta-item .meta-value {
+    color: var(--text-secondary);
+    font-weight: var(--font-medium);
+}
+
+/* ── 4. Difficulty / Status Badges ──────────────────────────── */
+.lecture-badges {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+.lecture-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 2px var(--space-2);
+    border-radius: var(--border-radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    line-height: 1.4;
+    text-transform: capitalize;
+}
+
+/* Difficulty badges */
+.lecture-badge.difficulty-beginner {
+    background: rgba(34, 197, 94, 0.12);
+    color: var(--color-success);
+}
+
+.lecture-badge.difficulty-intermediate {
+    background: rgba(245, 158, 11, 0.12);
+    color: var(--color-warning);
+}
+
+.lecture-badge.difficulty-advanced {
+    background: rgba(239, 68, 68, 0.12);
+    color: var(--color-danger);
+}
+
+.lecture-badge.difficulty-expert {
+    background: rgba(139, 92, 246, 0.12);
+    color: var(--color-secondary);
+}
+
+/* Status badges */
+.lecture-badge.status-completed {
+    background: rgba(34, 197, 94, 0.12);
+    color: var(--color-success);
+}
+
+.lecture-badge.status-in-progress {
+    background: rgba(245, 158, 11, 0.12);
+    color: var(--color-warning);
+}
+
+.lecture-badge.status-not-started {
+    background: var(--bg-surface-alt);
+    color: var(--text-muted);
+}
+
+.lecture-badge.status-locked {
+    background: rgba(107, 114, 128, 0.12);
+    color: var(--text-muted);
+}
+
+/* Question count badge (special) */
+.lecture-badge.question-count {
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-primary);
+}
+
+/* ── 5. Progress Indicator ──────────────────────────────────── */
+.lecture-progress-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1-5);
+    margin-top: var(--space-2);
+}
+
+.lecture-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+}
+
+.lecture-progress-header .progress-label {
+    font-weight: var(--font-medium);
+}
+
+.lecture-progress-header .progress-percentage {
+    font-weight: var(--font-semibold);
+    color: var(--text-secondary);
+}
+
+.lecture-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-surface-alt);
+    border-radius: var(--border-radius-full);
+    overflow: hidden;
+    position: relative;
+}
+
+.lecture-progress-fill {
+    height: 100%;
+    border-radius: var(--border-radius-full);
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    width: 0%;
+}
+
+/* Shimmer animation for progress */
+.lecture-progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 100%
+    );
+    animation: shimmer 2s infinite;
+    display: none;
+}
+
+.lecture-card:hover .lecture-progress-fill::after {
+    display: block;
+}
+
+@keyframes shimmer {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+
+/* Completed progress fill */
+.lecture-card.status-completed .lecture-progress-fill {
+    background: linear-gradient(90deg, var(--color-success), #2ecc71);
+}
+
+/* ── 6. Action Buttons ───────────────────────────────────────── */
+.lecture-card-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-color);
+}
+
+.lecture-card-actions .btn {
+    flex: 1;
+    justify-content: center;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+
+/* Primary action button */
+.btn-lecture-primary {
+    background: var(--color-primary);
+    color: var(--text-inverse);
+}
+
+.btn-lecture-primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-lecture-primary:active {
+    transform: translateY(0);
+}
+
+/* Secondary action button */
+.btn-lecture-secondary {
+    background: var(--bg-surface-alt);
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+}
+
+.btn-lecture-secondary:hover {
+    background: var(--bg-surface);
+    border-color: var(--border-color-strong);
+    color: var(--text-primary);
+}
+
+/* Success action button (for completed lectures) */
+.btn-lecture-success {
+    background: var(--color-success);
+    color: var(--text-inverse);
+}
+
+.btn-lecture-success:hover {
+    background: #16a34a;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Review button variant */
+.btn-lecture-review {
+    background: rgba(139, 92, 246, 0.10);
+    color: var(--color-secondary);
+    border-color: rgba(139, 92, 246, 0.20);
+}
+
+.btn-lecture-review:hover {
+    background: rgba(139, 92, 246, 0.18);
+    border-color: rgba(139, 92, 246, 0.30);
+    transform: translateY(-1px);
+}
+
+/* Locked state for actions */
+.lecture-card.status-locked .btn-lecture-primary {
+    background: var(--bg-surface-alt);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ── 7. Empty Lecture State ────────────────────────────────── */
+.lecture-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8) var(--space-4);
+    text-align: center;
+    background: var(--bg-surface-alt);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--border-radius-lg);
+    gap: var(--space-4);
+    min-height: 200px;
+}
+
+.lecture-empty-state .empty-icon {
+    font-size: 3rem;
+    opacity: 0.5;
+}
+
+.lecture-empty-state .empty-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.lecture-empty-state .empty-description {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    max-width: 400px;
+    line-height: var(--leading-loose);
+}
+
+/* ── 8. Card Animations ──────────────────────────────────────── */
+.lecture-card {
+    animation: lectureCardEnter 0.4s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.lecture-card:nth-child(1) { animation-delay: 0.05s; }
+.lecture-card:nth-child(2) { animation-delay: 0.10s; }
+.lecture-card:nth-child(3) { animation-delay: 0.15s; }
+.lecture-card:nth-child(4) { animation-delay: 0.20s; }
+.lecture-card:nth-child(5) { animation-delay: 0.25s; }
+.lecture-card:nth-child(6) { animation-delay: 0.30s; }
+.lecture-card:nth-child(7) { animation-delay: 0.35s; }
+.lecture-card:nth-child(8) { animation-delay: 0.40s; }
+.lecture-card:nth-child(9) { animation-delay: 0.45s; }
+.lecture-card:nth-child(10) { animation-delay: 0.50s; }
+.lecture-card:nth-child(11) { animation-delay: 0.55s; }
+.lecture-card:nth-child(12) { animation-delay: 0.60s; }
+.lecture-card:nth-child(13) { animation-delay: 0.65s; }
+.lecture-card:nth-child(14) { animation-delay: 0.70s; }
+
+@keyframes lectureCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── 9. Responsive Behavior ────────────────────────────────── */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .lecture-card {
+        padding: var(--space-5);
+    }
+
+    .lecture-week-badge {
+        min-width: 48px;
+        height: 48px;
+        font-size: var(--text-xs);
+    }
+
+    .lecture-week-badge .week-number {
+        font-size: var(--text-base);
+    }
+
+    .lecture-card-title {
+        font-size: var(--text-sm);
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .lecture-card-header {
+        gap: var(--space-3);
+    }
+
+    .lecture-week-badge {
+        min-width: 44px;
+        height: 44px;
+        font-size: var(--text-xs);
+    }
+
+    .lecture-week-badge .week-number {
+        font-size: var(--text-sm);
+    }
+
+    .lecture-week-badge .week-label {
+        font-size: 8px;
+    }
+
+    .lecture-card-title {
+        font-size: var(--text-sm);
+        -webkit-line-clamp: 3;
+    }
+
+    .lecture-description {
+        -webkit-line-clamp: 2;
+        font-size: var(--text-xs);
+    }
+
+    .lecture-meta-row {
+        gap: var(--space-2);
+        flex-wrap: wrap;
+    }
+
+    .lecture-meta-item {
+        font-size: 10px;
+    }
+
+    .lecture-badges {
+        gap: var(--space-1);
+    }
+
+    .lecture-badge {
+        font-size: 9px;
+        padding: 1px var(--space-1-5);
+    }
+
+    .lecture-card-actions {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .lecture-card-actions .btn {
+        width: 100%;
+        padding: var(--space-2) var(--space-3);
+        font-size: var(--text-xs);
+    }
+
+    .lecture-empty-state {
+        padding: var(--space-6) var(--space-3);
+        min-height: 150px;
+    }
+
+    .lecture-empty-state .empty-icon {
+        font-size: 2rem;
+    }
+
+    .lecture-empty-state .empty-title {
+        font-size: var(--text-base);
+    }
+
+    .lecture-empty-state .empty-description {
+        font-size: var(--text-xs);
+    }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+    .lecture-card {
+        padding: var(--space-4);
+    }
+
+    .lecture-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .lecture-week-badge {
+        flex-direction: row;
+        min-width: auto;
+        height: auto;
+        padding: var(--space-1) var(--space-3);
+        gap: var(--space-2);
+        border-radius: var(--border-radius-full);
+        font-size: var(--text-xs);
+    }
+
+    .lecture-week-badge .week-number {
+        font-size: var(--text-xs);
+        display: inline;
+    }
+
+    .lecture-week-badge .week-label {
+        font-size: 9px;
+    }
+
+    .lecture-progress-header {
+        font-size: 10px;
+    }
+
+    .lecture-progress-bar {
+        height: 4px;
+    }
+
+    .lecture-meta-row {
+        gap: var(--space-1-5);
+    }
+
+    .lecture-badge {
+        font-size: 8px;
+        padding: 1px var(--space-1);
+    }
+}
+
+/* ── 10. Dark Theme Overrides ───────────────────────────────── */
+[data-theme="dark"] .lecture-card {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .lecture-card:hover {
+    background: var(--bg-surface);
+}
+
+[data-theme="dark"] .lecture-empty-state {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .btn-lecture-secondary {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .btn-lecture-secondary:hover {
+    background: var(--bg-surface);
+}
+
+[data-theme="dark"] .btn-lecture-review {
+    background: rgba(139, 92, 246, 0.08);
+    border-color: rgba(139, 92, 246, 0.15);
+}
+
+[data-theme="dark"] .btn-lecture-review:hover {
+    background: rgba(139, 92, 246, 0.15);
+    border-color: rgba(139, 92, 246, 0.25);
+}
+
+[data-theme="dark"] .lecture-badge.difficulty-beginner {
+    background: rgba(34, 197, 94, 0.08);
+}
+
+[data-theme="dark"] .lecture-badge.difficulty-intermediate {
+    background: rgba(245, 158, 11, 0.08);
+}
+
+[data-theme="dark"] .lecture-badge.difficulty-advanced {
+    background: rgba(239, 68, 68, 0.08);
+}
+
+[data-theme="dark"] .lecture-badge.difficulty-expert {
+    background: rgba(139, 92, 246, 0.08);
+}
+
+/* ── 11. Accessibility ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .lecture-card {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .lecture-card:hover {
+        transform: none;
+    }
+
+    .lecture-progress-fill {
+        transition: none;
+    }
+
+    .lecture-progress-fill::after {
+        animation: none;
+        display: none !important;
+    }
+
+    .btn-lecture-primary:hover,
+    .btn-lecture-secondary:hover,
+    .btn-lecture-success:hover,
+    .btn-lecture-review:hover {
+        transform: none;
+    }
+}
+
+/* Focus states for accessibility */
+.lecture-card:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.lecture-card-actions .btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
