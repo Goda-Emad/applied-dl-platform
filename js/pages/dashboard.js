@@ -778,4 +778,5 @@ class Dashboard {
 /**
  * Create and export the dashboard instance
  */
-export default Dashboard;
+const dashboard = new Dashboard();
+export default dashboard;
