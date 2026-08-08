@@ -1058,8 +1058,4 @@ class ExamMode {
 /**
  * Create and export the exam mode instance
  */
-const examMode = new ExamMode();
-
-// Export the exam mode
-export default examMode;
-
+export default ExamMode;
