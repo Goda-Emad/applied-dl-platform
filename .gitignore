@@ -42,18 +42,6 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-# ── Build / Distribution (NOT used in this project) ─────────
-dist/
-build/
-out/
-*.min.js
-*.min.css
-
-# ── Documentation (optional) ─────────────────────────────────
-docs/
-*.pdf
-*.docx
-
 # ── Misc ──────────────────────────────────────────────────────
 *.zip
 *.tar.gz
@@ -68,6 +56,7 @@ docs/
 #   - js/ (all — app.js, core/, components/, pages/, utils/)
 #   - data/ (all JSON files)
 #   - assets/ (all)
+#   - docs/ (all)
 #
 # NO rule should exclude *.js, *.json, *.html, or *.css
 # ============================================================
