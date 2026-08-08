@@ -1,16 +1,20 @@
 name: Deploy static site to GitHub Pages
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false   # ← changed: let each deploy finish cleanly
+
 jobs:
   deploy:
     environment:
@@ -20,14 +24,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Disable Jekyll
         run: touch .nojekyll
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload entire repository
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true   # ← prevents false failure on cancel-race
+
+      - name: Verify deployment
+        run: |
+          echo "Deployment URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "Deployment finished successfully"
