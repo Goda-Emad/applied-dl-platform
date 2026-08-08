@@ -871,7 +871,4 @@ class ProgressPage {
 /**
  * Create and export the progress page instance
  */
-const progressPage = new ProgressPage();
-
-// Export the progress page
-export default progressPage;
+export default ProgressPage;
