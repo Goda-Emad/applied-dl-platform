@@ -550,8 +550,8 @@ class Router {
         }
 
         // Create page instance
-        const page = typeof component === 'function' ? component(params, query) : component;
-
+const isClass = typeof component === 'function' && component.prototype && typeof component.prototype.render === 'function';
+const page = isClass ? new component(params, query) : (typeof component === 'function' ? component(params, query) : component);
         // Render to container
         if (this._appContainer) {
             this._appContainer.innerHTML = '';
