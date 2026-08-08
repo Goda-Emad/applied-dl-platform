@@ -184,7 +184,7 @@ class EventBus {
             console.warn('Reentrant event dispatch detected for event:', event);
         }
 
-        this._dispatching = true;
+        // this._dispatching = true;
 
         try {
             // Log event history (if debugging)
@@ -210,10 +210,10 @@ class EventBus {
                 }
             }
 
-            this._dispatching = false;
+            // this._dispatching = false;
             return Promise.resolve(results);
         } catch (error) {
-            this._dispatching = false;
+            // this._dispatching = false;
             console.error(`Error dispatching event "${event}":`, error);
             throw error;
         }
@@ -230,7 +230,7 @@ class EventBus {
             console.warn('Reentrant event dispatch detected for event:', event);
         }
 
-        this._dispatching = true;
+        // this._dispatching = true;
 
         try {
             if (this._debugMode) {
@@ -251,10 +251,10 @@ class EventBus {
                 }
             }
 
-            this._dispatching = false;
+            // this._dispatching = false;
             return results;
         } catch (error) {
-            this._dispatching = false;
+            // this._dispatching = false;
             console.error(`Error dispatching async event "${event}":`, error);
             throw error;
         }
@@ -513,9 +513,6 @@ class EventBus {
 /**
  * Create and export a singleton instance
  */
-const eventBus = new EventBus();
-
-// Freeze the event bus object
 const eventBus = new EventBus();
 
 // Export the event bus
