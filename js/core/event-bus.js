@@ -516,7 +516,7 @@ class EventBus {
 const eventBus = new EventBus();
 
 // Freeze the event bus object
-Object.freeze(eventBus);
+const eventBus = new EventBus();
 
 // Export the event bus
 export default eventBus;
