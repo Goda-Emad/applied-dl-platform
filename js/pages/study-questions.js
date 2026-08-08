@@ -836,7 +836,4 @@ class StudyQuestions {
 /**
  * Create and export the study questions instance
  */
-const studyQuestions = new StudyQuestions();
-
-// Export the study questions
-export default studyQuestions;
+export default StudyQuestions;
