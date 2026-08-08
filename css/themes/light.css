@@ -1,1 +1,223 @@
+/* ============================================================
+   css/themes/light.css — Light Theme
+   Applied Deep Learning Platform
+   ============================================================ */
 
+:root {
+    /* ── Base Colors ────────────────────────────────────────── */
+    --color-primary: #6366f1;
+    --color-primary-dark: #4f46e5;
+    --color-primary-light: #818cf8;
+    --color-secondary: #8b5cf6;
+    --color-secondary-dark: #7c3aed;
+    --color-secondary-light: #a78bfa;
+    
+    --color-success: #22c55e;
+    --color-success-dark: #16a34a;
+    --color-success-light: #34d399;
+    
+    --color-danger: #ef4444;
+    --color-danger-dark: #dc2626;
+    --color-danger-light: #f87171;
+    
+    --color-warning: #f59e0b;
+    --color-warning-dark: #d97706;
+    --color-warning-light: #fbbf24;
+    
+    --color-info: #3b82f6;
+    --color-info-dark: #2563eb;
+    --color-info-light: #60a5fa;
+    
+    /* ── Background Colors ──────────────────────────────────── */
+    --bg-primary: #f8fafc;
+    --bg-secondary: #f1f5f9;
+    --bg-surface: #ffffff;
+    --bg-surface-alt: #f8fafc;
+    --bg-surface-hover: #f1f5f9;
+    
+    /* ── Text Colors ────────────────────────────────────────── */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-inverse: #ffffff;
+    
+    /* ── Border Colors ──────────────────────────────────────── */
+    --border-color: #e2e8f0;
+    --border-color-strong: #cbd5e1;
+    --border-color-light: #f1f5f9;
+    
+    /* ── Shadow Colors ──────────────────────────────────────── */
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --shadow-color-light: rgba(0, 0, 0, 0.05);
+    
+    /* ── Scrollbar Colors ───────────────────────────────────── */
+    --scrollbar-track: #f1f5f9;
+    --scrollbar-thumb: #cbd5e1;
+    --scrollbar-thumb-hover: #94a3b8;
+    
+    /* ── Selection Colors ───────────────────────────────────── */
+    --selection-bg: rgba(99, 102, 241, 0.15);
+    --selection-text: #0f172a;
+    
+    /* ── Placeholder Colors ─────────────────────────────────── */
+    --placeholder-color: #94a3b8;
+    
+    /* ── Disabled Colors ────────────────────────────────────── */
+    --disabled-bg: #f1f5f9;
+    --disabled-text: #94a3b8;
+    --disabled-border: #e2e8f0;
+    
+    /* ── Focus Ring ─────────────────────────────────────────── */
+    --focus-ring: rgba(99, 102, 241, 0.3);
+    
+    /* ── Input Colors ───────────────────────────────────────── */
+    --input-bg: #ffffff;
+    --input-border: #e2e8f0;
+    --input-text: #0f172a;
+    --input-focus-border: #6366f1;
+    
+    /* ── Card Colors ────────────────────────────────────────── */
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    --card-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.1);
+    
+    /* ── Modal Colors ───────────────────────────────────────── */
+    --modal-overlay: rgba(15, 23, 42, 0.5);
+    --modal-bg: #ffffff;
+    --modal-border: #e2e8f0;
+    
+    /* ── Toast Colors ───────────────────────────────────────── */
+    --toast-bg: #ffffff;
+    --toast-border: #e2e8f0;
+    --toast-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    
+    /* ── Navigation Colors ──────────────────────────────────── */
+    --nav-bg: #ffffff;
+    --nav-active-bg: rgba(99, 102, 241, 0.08);
+    --nav-active-border: #6366f1;
+    --nav-hover-bg: rgba(0, 0, 0, 0.04);
+    
+    /* ── Progress Colors ────────────────────────────────────── */
+    --progress-track: #e2e8f0;
+    --progress-fill: #6366f1;
+    --progress-success: #22c55e;
+    --progress-warning: #f59e0b;
+    --progress-danger: #ef4444;
+    
+    /* ── Chart Colors ───────────────────────────────────────── */
+    --chart-grid: #e2e8f0;
+    --chart-label: #94a3b8;
+    --chart-tooltip-bg: #ffffff;
+    --chart-tooltip-border: #e2e8f0;
+}
+
+/* ── Light Theme Specific Styles ──────────────────────────────── */
+
+/* Scrollbar Styling */
+:root ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+:root ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: var(--border-radius-full);
+}
+
+:root ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: var(--border-radius-full);
+}
+
+:root ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* Selection */
+:root ::selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
+}
+
+/* Placeholder */
+:root ::placeholder {
+    color: var(--placeholder-color);
+    opacity: 0.8;
+}
+
+/* Input Autofill Override */
+:root input:-webkit-autofill,
+:root input:-webkit-autofill:hover,
+:root input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
+    -webkit-text-fill-color: var(--input-text) !important;
+}
+
+/* Focus Visible */
+:root :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+/* Disabled Elements */
+:root [disabled],
+:root .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Loading Shimmer */
+:root .loading-shimmer {
+    background: linear-gradient(
+        90deg,
+        var(--bg-surface) 25%,
+        var(--bg-surface-alt) 50%,
+        var(--bg-surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* ── Print Overrides ──────────────────────────────────────────── */
+@media print {
+    :root body {
+        background: #fff !important;
+        color: #000 !important;
+    }
+    
+    :root .bg-surface,
+    :root .bg-secondary,
+    :root .bg-primary {
+        background: #fff !important;
+    }
+    
+    :root .text-primary,
+    :root .text-secondary,
+    :root .text-muted {
+        color: #000 !important;
+    }
+    
+    :root .border-color {
+        border-color: #ddd !important;
+    }
+}
+
+/* ── High Contrast Mode Support ────────────────────────────────── */
+@media (prefers-contrast: high) {
+    :root {
+        --color-primary: #4f46e5;
+        --color-secondary: #7c3aed;
+        --color-success: #16a34a;
+        --color-danger: #dc2626;
+        --color-warning: #d97706;
+        --color-info: #2563eb;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --text-primary: #000000;
+        --text-secondary: #1e293b;
+        --border-color: #64748b;
+        --border-color-strong: #334155;
+    }
+}
