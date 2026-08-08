@@ -36,18 +36,16 @@ class Dashboard {
             accuracyChart: null
         };
 
-        this._container = null;
-        this._handleStateChange  = this._handleStateChange.bind(this);
+        this._container     = null;
+        this._focusHandler  = null;   // ✅ FIX: stored reference for cleanup
+        this._hasErrorToast = false;  // ✅ FIX: prevent duplicate toasts
+
+        this._handleStateChange   = this._handleStateChange.bind(this);
         this._handleStorageUpdate = this._handleStorageUpdate.bind(this);
     }
 
     // ── Router lifecycle ──────────────────────────────────────
 
-    /**
-     * render() — router calls this first.
-     * Returns the full dashboard HTML scaffold.
-     * Data is injected later in mounted().
-     */
     render() {
         return `
         <section id="page-dashboard" class="page page--active" data-page="dashboard">
@@ -118,11 +116,7 @@ class Dashboard {
         </section>`;
     }
 
-    /**
-     * mounted() — router calls this after injecting render() HTML into the DOM.
-     */
     async mounted() {
-        // Now #page-dashboard exists in the DOM
         this._container = document.querySelector('#page-dashboard');
         if (!this._container) {
             console.warn('Dashboard: #page-dashboard still not found after render');
@@ -175,9 +169,16 @@ class Dashboard {
             state.set('lectures.completed',     completedLectures);
             state.set('progress',               progress);
 
+            // ✅ FIX: reset error flag on successful load
+            this._hasErrorToast = false;
+
         } catch (error) {
             console.error('Error loading dashboard data:', error);
-            Toast.error('Failed to load dashboard data. Please refresh the page.');
+            // ✅ FIX: show toast only once, not on every retry
+            if (!this._hasErrorToast) {
+                this._hasErrorToast = true;
+                Toast.error('Failed to load dashboard data. Please refresh the page.');
+            }
         }
     }
 
@@ -263,7 +264,7 @@ class Dashboard {
             { label: 'Accuracy', value: `${this._data.accuracy}%`, icon: '🎯',
               color: this._data.accuracy >= 70 ? 'success' : this._data.accuracy >= 50 ? 'warning' : 'danger',
               progress: this._data.accuracy },
-            { label: 'Total Questions', value: this._data.totalQuestions,
+            { label: 'Total Questions', value: this._data.totalQuestions || '–',
               icon: '📝', color: 'info', progress: 100 }
         ];
 
@@ -354,7 +355,10 @@ class Dashboard {
     _setupEventListeners() {
         eventBus.on('state.updated',   this._handleStateChange);
         eventBus.on('storage.updated', this._handleStorageUpdate);
-        window.addEventListener('focus', () => this._refreshData());
+
+        // ✅ FIX: store reference so we can remove it in destroy()
+        this._focusHandler = () => this._refreshData();
+        window.addEventListener('focus', this._focusHandler);
 
         // Hero buttons
         const startBtn  = this._qs('#hero-start-exam-btn');
@@ -384,8 +388,19 @@ class Dashboard {
     destroy() {
         if (this._components.progressRing)  { this._components.progressRing.destroy();  this._components.progressRing  = null; }
         if (this._components.accuracyChart) { this._components.accuracyChart.destroy(); this._components.accuracyChart = null; }
+
+        // ✅ FIX: remove focus listener properly
+        if (this._focusHandler) {
+            window.removeEventListener('focus', this._focusHandler);
+            this._focusHandler = null;
+        }
+
+        // ✅ FIX: reset error flag so next mount can show toast if needed
+        this._hasErrorToast = false;
+
         eventBus.off('state.updated',   this._handleStateChange);
         eventBus.off('storage.updated', this._handleStorageUpdate);
+
         console.log('Dashboard destroyed');
     }
 }
