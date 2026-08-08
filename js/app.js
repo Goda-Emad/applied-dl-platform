@@ -26,7 +26,7 @@ import SettingsPage from './pages/settings.js';
 // ── Constants ─────────────────────────────────────────────────
 
 const BASE_PATH = '/applied-dl-platform';
-const CONTAINER_SELECTOR = '#app';
+const CONTAINER_SELECTOR = '#main-content';
 
 // ── 404 Page Component ────────────────────────────────────────
 
