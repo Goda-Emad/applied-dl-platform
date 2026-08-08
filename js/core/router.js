@@ -23,6 +23,7 @@ class Router {
         this._pageCache     = new Map();
         this._cachePages    = true;
         this._maxCacheSize  = 10;
+        this._currentPage   = null; // ✅ FIX: track current page for destroy()
 
         this._init();
     }
@@ -266,22 +267,6 @@ class Router {
         }
     }
 
-    /**
-     * FIX: _renderPage now correctly handles three component shapes:
-     *
-     *  1. Class with render() + optional mounted()
-     *     → new Component(), call render(), inject HTML, then call mounted()
-     *
-     *  2. Plain object with render() + optional mounted()
-     *     → same flow without `new`
-     *
-     *  3. Plain function  → call it directly to get a string/HTMLElement
-     *
-     * The old code tried to detect classes but fell through to a
-     * `console.warn('Invalid page component')` for instances (objects),
-     * because `typeof instance === 'object'` and it had no render branch
-     * for that case.
-     */
     _renderPage(component, route, params, query) {
         if (route.config.title) {
             document.title = `${route.config.title} | Applied Deep Learning Platform`;
@@ -292,7 +277,12 @@ class Router {
             return;
         }
 
-        // ── Determine component type ──────────────────────────
+        // ✅ FIX: destroy old page before rendering new one
+        if (this._currentPage && typeof this._currentPage.destroy === 'function') {
+            this._currentPage.destroy();
+            this._currentPage = null;
+        }
+
         const isClass = typeof component === 'function'
             && component.prototype
             && typeof component.prototype.render === 'function';
@@ -304,7 +294,6 @@ class Router {
 
         const isFactoryFunction = typeof component === 'function' && !isClass;
 
-        // ── Instantiate / resolve page ────────────────────────
         let page;
         if (isClass) {
             page = new component(params, query);
@@ -315,34 +304,29 @@ class Router {
             return;
         }
 
-        // ── Render ────────────────────────────────────────────
         this._appContainer.innerHTML = '';
 
         if (typeof page === 'string') {
-            // Factory returned a raw HTML string
             this._appContainer.innerHTML = page;
 
         } else if (page instanceof HTMLElement) {
-            // Factory returned a DOM node
             this._appContainer.appendChild(page);
 
         } else if (page && typeof page.render === 'function') {
-            // Class instance or plain object with render()
             const rendered = page.render(params, query);
 
             if (typeof rendered === 'string') {
-                // render() returned HTML — inject it
                 if (rendered.trim() !== '') {
                     this._appContainer.innerHTML = rendered;
                 }
-                // (empty string = page HTML already in the DOM, e.g. Dashboard)
             } else if (rendered instanceof HTMLElement) {
                 this._appContainer.appendChild(rendered);
             }
 
-            // Call mounted() lifecycle after the DOM is ready
+            // ✅ FIX: save reference so we can destroy() on next navigation
+            this._currentPage = page;
+
             if (typeof page.mounted === 'function') {
-                // Use microtask so the DOM paint has settled
                 Promise.resolve().then(() => page.mounted(params, query));
             }
         } else {
@@ -471,7 +455,7 @@ class Router {
     }
 
     createLink(path, params = {}, query = {}, attrs = {}) {
-        const url        = this.getRouteUrl(path, params, query);
+        const url         = this.getRouteUrl(path, params, query);
         const attrsString = Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ');
         return `<a href="${url}" data-route="true" ${attrsString}>`;
     }
