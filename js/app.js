@@ -13,15 +13,15 @@ import router from './core/router.js';
 import sidebar from './components/sidebar.js';
 
 // ── Page Imports ─────────────────────────────────────────────
-import dashboardPage from './pages/dashboard.js';
-import lectureBrowser from './pages/lecture-browser.js';
-import lectureDetail from './pages/lecture-detail.js';
-import examMode from './pages/exam.js';
-import resultsPage from './pages/results.js';
-import progressPage from './pages/progress.js';
-import studyQuestions from './pages/study-questions.js';
-import bookmarksPage from './pages/bookmarks.js';
-import settingsPage from './pages/settings.js';
+import Dashboard from './pages/dashboard.js';
+import LectureBrowser from './pages/lecture-browser.js';
+import LectureDetail from './pages/lecture-detail.js';
+import ExamMode from './pages/exam.js';
+import ResultsPage from './pages/results.js';
+import ProgressPage from './pages/progress.js';
+import StudyQuestions from './pages/study-questions.js';
+import BookmarksPage from './pages/bookmarks.js';
+import SettingsPage from './pages/settings.js';
 
 // ── Constants ─────────────────────────────────────────────────
 
