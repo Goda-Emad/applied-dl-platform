@@ -5,16 +5,13 @@
  * ============================================================
  */
 
-// ── Core Modules ──────────────────────────────────────────────
-import state     from './core/state.js';
-import storage   from './core/storage.js';
-import eventBus  from './core/event-bus.js';
-import router    from './core/router.js';
-import sidebar   from './components/sidebar.js';
+import state    from './core/state.js';
+import storage  from './core/storage.js';
+import eventBus from './core/event-bus.js';
+import router   from './core/router.js';
+import sidebar  from './components/sidebar.js';
 
-// ── Page Imports (Classes) ────────────────────────────────────
-// FIX: all pages should now export their CLASS (not an instance)
-// so the router can do `new PageClass()` → render() → mounted()
+// Pages — export CLASS (not instance) from each page file
 import Dashboard      from './pages/dashboard.js';
 import LectureBrowser from './pages/lecture-browser.js';
 import LectureDetail  from './pages/lecture-detail.js';
@@ -29,40 +26,43 @@ import SettingsPage   from './pages/settings.js';
 const BASE_PATH          = '/applied-dl-platform';
 const CONTAINER_SELECTOR = '#main-content';
 
+// ── Data Path Utility ─────────────────────────────────────────
+/**
+ * Returns the correct absolute path for a data file,
+ * prepending BASE_PATH when running on GitHub Pages.
+ *
+ * Detection: if the page origin is github.io OR the pathname
+ * already starts with BASE_PATH, we're on GitHub Pages.
+ */
+export function getDataPath(path) {
+    const normalized = path.startsWith('/') ? path : `/${path}`;
+    const onGhPages  =
+        window.location.hostname.endsWith('github.io') ||
+        window.location.pathname.startsWith(BASE_PATH);
+    return onGhPages ? `${BASE_PATH}${normalized}` : normalized;
+}
+
+export function getBasePath() { return BASE_PATH; }
+
 // ── 404 Page ──────────────────────────────────────────────────
 const notFoundPage = {
     render() {
         return `
-            <div style="
-                display:flex;flex-direction:column;align-items:center;
+            <div style="display:flex;flex-direction:column;align-items:center;
                 justify-content:center;min-height:60vh;text-align:center;padding:40px 20px;">
                 <div style="font-size:72px;margin-bottom:20px;">🔍</div>
                 <h1 style="font-size:28px;color:var(--text-primary);margin-bottom:12px;">Page Not Found</h1>
                 <p style="font-size:16px;color:var(--text-muted);max-width:400px;margin-bottom:24px;">
                     The page you're looking for doesn't exist or has been moved.
                 </p>
-                <a href="${BASE_PATH}/dashboard" style="
-                    display:inline-block;padding:10px 24px;
-                    background:var(--color-primary,#6366f1);color:#fff;
-                    border-radius:6px;text-decoration:none;font-weight:500;">
+                <a href="${BASE_PATH}/dashboard"
+                   style="display:inline-block;padding:10px 24px;background:var(--color-primary,#6366f1);
+                          color:#fff;border-radius:6px;text-decoration:none;font-weight:500;">
                     Go to Dashboard
                 </a>
             </div>`;
     }
 };
-
-// ── Data Path Utilities ───────────────────────────────────────
-export function getDataPath(path) {
-    const normalized = path.startsWith('/') ? path : `/${path}`;
-    if (window.location.pathname.includes(BASE_PATH)) {
-        return `${BASE_PATH}${normalized}`;
-    }
-    return normalized;
-}
-
-export function getBasePath() {
-    return BASE_PATH;
-}
 
 // ── Route Registration ────────────────────────────────────────
 function registerRoutes() {
@@ -127,16 +127,15 @@ function registerRoutes() {
 function handleInitialRoute() {
     let path = window.location.pathname;
     if (path.startsWith(BASE_PATH)) path = path.substring(BASE_PATH.length) || '/';
-    if (!path.startsWith('/'))     path = '/' + path;
+    if (!path.startsWith('/'))      path = '/' + path;
 
     const query = {};
-    const searchParams = new URLSearchParams(window.location.search);
-    for (const [key, value] of searchParams) query[key] = value;
+    new URLSearchParams(window.location.search).forEach((v, k) => { query[k] = v; });
 
     router.navigate(path, {}, query, true);
 }
 
-// ── Initialization ────────────────────────────────────────────
+// ── App Init ──────────────────────────────────────────────────
 function initApp() {
     const container = document.querySelector(CONTAINER_SELECTOR);
     if (!container) {
@@ -146,7 +145,6 @@ function initApp() {
 
     router.setContainer(container);
     router.setBasePath(BASE_PATH);
-
     registerRoutes();
 
     if (sidebar && typeof sidebar.init === 'function') sidebar.init();
@@ -155,19 +153,17 @@ function initApp() {
 
     eventBus.emit('app.ready', {
         basePath:  BASE_PATH,
-        container: container,
+        container,
         routes:    router.getRoutes()
     });
 
     console.log(`[app] Initialized with ${router.getRoutes().length} routes`);
 }
 
-// ── Start ─────────────────────────────────────────────────────
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initApp);
 } else {
     initApp();
 }
 
-// ── Exports ───────────────────────────────────────────────────
 export default { init: initApp, getBasePath, getDataPath, router, state, storage, eventBus, sidebar };
