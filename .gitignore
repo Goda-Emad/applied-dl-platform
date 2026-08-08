@@ -1,1 +1,73 @@
+# ============================================================
+# .gitignore — Applied Deep Learning Platform
+# GitHub Pages Static Site — Vanilla JavaScript ES Modules
+# ============================================================
 
+# ── OS / Editor Files ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.~*
+~$*
+
+# ── IDE / Editor Directories ─────────────────────────────────
+.vscode/
+.idea/
+*.iml
+.sublime-project
+.sublime-workspace
+
+# ── Temporary / Cache Files ──────────────────────────────────
+*.log
+*.tmp
+*.temp
+.cache/
+*.cache
+
+# ── Environment / Local Config ──────────────────────────────
+.env
+.env.local
+.env.*.local
+*.local
+
+# ── Node / npm (if ever used) ───────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ── Build / Distribution (NOT used in this project) ─────────
+dist/
+build/
+out/
+*.min.js
+*.min.css
+
+# ── Documentation (optional) ─────────────────────────────────
+docs/
+*.pdf
+*.docx
+
+# ── Misc ──────────────────────────────────────────────────────
+*.zip
+*.tar.gz
+*.rar
+
+# ============================================================
+# ⚠️ IMPORTANT — DO NOT IGNORE APPLICATION SOURCE CODE
+# ============================================================
+# Everything below is deliberately allowed:
+#   - index.html
+#   - css/ (all)
+#   - js/ (all — app.js, core/, components/, pages/, utils/)
+#   - data/ (all JSON files)
+#   - assets/ (all)
+#
+# NO rule should exclude *.js, *.json, *.html, or *.css
+# ============================================================
