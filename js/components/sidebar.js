@@ -744,7 +744,6 @@ class Sidebar {
 const sidebar = new Sidebar();
 
 // Freeze the sidebar instance
-Object.freeze(sidebar);
 
 // Export the sidebar component
 export default sidebar;
