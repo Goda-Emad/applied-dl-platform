@@ -810,7 +810,4 @@ class BookmarksPage {
 /**
  * Create and export the bookmarks page instance
  */
-const bookmarksPage = new BookmarksPage();
-
-// Export the bookmarks page
-export default bookmarksPage;
+export default BookmarksPage;
