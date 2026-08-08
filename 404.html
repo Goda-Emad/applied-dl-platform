@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Applied Deep Learning Platform</title>
+  <script>
+    // GitHub Pages SPA redirect trick
+    // When GH Pages serves this 404.html, we grab the path
+    // and encode it into the query string, then redirect to index.html
+    // which reads it back and passes it to the router.
+    var BASE = '/applied-dl-platform';
+    var path = window.location.pathname;
+
+    // Strip base path
+    var routePath = path.startsWith(BASE) ? path.slice(BASE.length) : path;
+    if (!routePath || routePath === '/') routePath = '/dashboard';
+
+    // Redirect to index with the path encoded in ?p=
+    var redirectUrl = BASE + '/?p=' + encodeURIComponent(routePath);
+    window.location.replace(redirectUrl);
+  </script>
+</head>
+<body></body>
+</html>
