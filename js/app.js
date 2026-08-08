@@ -11,7 +11,6 @@ import eventBus from './core/event-bus.js';
 import router   from './core/router.js';
 import sidebar  from './components/sidebar.js';
 
-// Pages — export CLASS (not instance) from each page file
 import Dashboard      from './pages/dashboard.js';
 import LectureBrowser from './pages/lecture-browser.js';
 import LectureDetail  from './pages/lecture-detail.js';
@@ -27,13 +26,6 @@ const BASE_PATH          = '/applied-dl-platform';
 const CONTAINER_SELECTOR = '#main-content';
 
 // ── Data Path Utility ─────────────────────────────────────────
-/**
- * Returns the correct absolute path for a data file,
- * prepending BASE_PATH when running on GitHub Pages.
- *
- * Detection: if the page origin is github.io OR the pathname
- * already starts with BASE_PATH, we're on GitHub Pages.
- */
 export function getDataPath(path) {
     const normalized = path.startsWith('/') ? path : `/${path}`;
     const onGhPages  =
@@ -56,7 +48,8 @@ const notFoundPage = {
                     The page you're looking for doesn't exist or has been moved.
                 </p>
                 <a href="${BASE_PATH}/dashboard"
-                   style="display:inline-block;padding:10px 24px;background:var(--color-primary,#6366f1);
+                   style="display:inline-block;padding:10px 24px;
+                          background:var(--color-primary,#6366f1);
                           color:#fff;border-radius:6px;text-decoration:none;font-weight:500;">
                     Go to Dashboard
                 </a>
@@ -125,12 +118,28 @@ function registerRoutes() {
 
 // ── Initial Route ─────────────────────────────────────────────
 function handleInitialRoute() {
-    let path = window.location.pathname;
-    if (path.startsWith(BASE_PATH)) path = path.substring(BASE_PATH.length) || '/';
-    if (!path.startsWith('/'))      path = '/' + path;
+    // Check if we were redirected here from 404.html
+    // 404.html encodes the original path as ?p=/some/route
+    const searchParams = new URLSearchParams(window.location.search);
+    const redirectedPath = searchParams.get('p');
 
+    let path;
     const query = {};
-    new URLSearchParams(window.location.search).forEach((v, k) => { query[k] = v; });
+
+    if (redirectedPath) {
+        // Came from 404.html redirect — use the encoded path
+        path = redirectedPath;
+        // Clean up the ?p= from the browser URL without triggering a reload
+        const cleanUrl = BASE_PATH + path;
+        window.history.replaceState(null, '', cleanUrl);
+    } else {
+        // Normal load — derive path from pathname
+        path = window.location.pathname;
+        if (path.startsWith(BASE_PATH)) path = path.slice(BASE_PATH.length) || '/';
+        if (!path.startsWith('/'))      path = '/' + path;
+        // Carry through any real query params
+        searchParams.forEach((v, k) => { if (k !== 'p') query[k] = v; });
+    }
 
     router.navigate(path, {}, query, true);
 }
