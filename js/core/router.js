@@ -889,7 +889,6 @@ class Router {
 const router = new Router();
 
 // Freeze the router object
-Object.freeze(router);
 
 // Export the router
 export default router;
