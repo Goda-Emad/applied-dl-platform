@@ -848,7 +848,4 @@ class ResultsPage {
 /**
  * Create and export the results page instance
  */
-const resultsPage = new ResultsPage();
-
-// Export the results page
-export default resultsPage;
+export default ResultsPage;
