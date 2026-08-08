@@ -782,3 +782,4 @@ const dashboard = new Dashboard();
 
 // Export the dashboard
 export default dashboard;
+// v2
