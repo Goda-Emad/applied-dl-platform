@@ -827,7 +827,4 @@ class SettingsPage {
 /**
  * Create and export the settings page instance
  */
-const settingsPage = new SettingsPage();
-
-// Export the settings page
-export default settingsPage;
+export default SettingsPage;
