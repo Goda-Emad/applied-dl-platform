@@ -12,16 +12,16 @@ import eventBus from './core/event-bus.js';
 import router from './core/router.js';
 import sidebar from './components/sidebar.js';
 
-// ── Page Imports ─────────────────────────────────────────────
-import Dashboard from './pages/dashboard.js';
-import LectureBrowser from './pages/lecture-browser.js';
-import LectureDetail from './pages/lecture-detail.js';
-import ExamMode from './pages/exam.js';
-import ResultsPage from './pages/results.js';
-import ProgressPage from './pages/progress.js';
-import StudyQuestions from './pages/study-questions.js';
-import BookmarksPage from './pages/bookmarks.js';
-import SettingsPage from './pages/settings.js';
+// ── Page Imports (Instances) ─────────────────────────────────
+import dashboardPage from './pages/dashboard.js';
+import lectureBrowser from './pages/lecture-browser.js';
+import lectureDetail from './pages/lecture-detail.js';
+import examMode from './pages/exam.js';
+import resultsPage from './pages/results.js';
+import progressPage from './pages/progress.js';
+import studyQuestions from './pages/study-questions.js';
+import bookmarksPage from './pages/bookmarks.js';
+import settingsPage from './pages/settings.js';
 
 // ── Constants ─────────────────────────────────────────────────
 
@@ -78,57 +78,68 @@ export function getBasePath() {
 }
 
 // ── Route Registration ────────────────────────────────────────
+
 function registerRoutes() {
     router.route('/', {
-        component: Dashboard,
+        component: dashboardPage,
         title: 'Dashboard',
         meta: { icon: '📊', nav: true }
     });
+
     router.route('/dashboard', {
-        component: Dashboard,
+        component: dashboardPage,
         title: 'Dashboard',
         meta: { icon: '📊', nav: true }
     });
+
     router.route('/lectures', {
-        component: LectureBrowser,
+        component: lectureBrowser,
         title: 'Lectures',
         meta: { icon: '📚', nav: true }
     });
+
     router.route('/lectures/:id', {
-        component: LectureDetail,
+        component: lectureDetail,
         title: 'Lecture Details',
         meta: { icon: '📖' }
     });
+
     router.route('/exam/:id', {
-        component: ExamMode,
+        component: examMode,
         title: 'Exam',
         meta: { icon: '📝' }
     });
+
     router.route('/results/:id', {
-        component: ResultsPage,
+        component: resultsPage,
         title: 'Exam Results',
         meta: { icon: '📊' }
     });
+
     router.route('/progress', {
-        component: ProgressPage,
+        component: progressPage,
         title: 'Progress',
         meta: { icon: '📈', nav: true }
     });
+
     router.route('/study-questions', {
-        component: StudyQuestions,
+        component: studyQuestions,
         title: 'Study Questions',
         meta: { icon: '📝', nav: true }
     });
+
     router.route('/bookmarks', {
-        component: BookmarksPage,
+        component: bookmarksPage,
         title: 'Bookmarks',
         meta: { icon: '⭐', nav: true }
     });
+
     router.route('/settings', {
-        component: SettingsPage,
+        component: settingsPage,
         title: 'Settings',
         meta: { icon: '⚙️', nav: true }
     });
+
     router.route('/404', {
         component: notFoundPage,
         title: 'Page Not Found',
