@@ -78,68 +78,57 @@ export function getBasePath() {
 }
 
 // ── Route Registration ────────────────────────────────────────
-
 function registerRoutes() {
     router.route('/', {
-        component: dashboardPage,
+        component: Dashboard,
         title: 'Dashboard',
         meta: { icon: '📊', nav: true }
     });
-
     router.route('/dashboard', {
-        component: dashboardPage,
+        component: Dashboard,
         title: 'Dashboard',
         meta: { icon: '📊', nav: true }
     });
-
     router.route('/lectures', {
-        component: lectureBrowser,
+        component: LectureBrowser,
         title: 'Lectures',
         meta: { icon: '📚', nav: true }
     });
-
     router.route('/lectures/:id', {
-        component: lectureDetail,
+        component: LectureDetail,
         title: 'Lecture Details',
         meta: { icon: '📖' }
     });
-
     router.route('/exam/:id', {
-        component: examMode,
+        component: ExamMode,
         title: 'Exam',
         meta: { icon: '📝' }
     });
-
     router.route('/results/:id', {
-        component: resultsPage,
+        component: ResultsPage,
         title: 'Exam Results',
         meta: { icon: '📊' }
     });
-
     router.route('/progress', {
-        component: progressPage,
+        component: ProgressPage,
         title: 'Progress',
         meta: { icon: '📈', nav: true }
     });
-
     router.route('/study-questions', {
-        component: studyQuestions,
+        component: StudyQuestions,
         title: 'Study Questions',
         meta: { icon: '📝', nav: true }
     });
-
     router.route('/bookmarks', {
-        component: bookmarksPage,
+        component: BookmarksPage,
         title: 'Bookmarks',
         meta: { icon: '⭐', nav: true }
     });
-
     router.route('/settings', {
-        component: settingsPage,
+        component: SettingsPage,
         title: 'Settings',
         meta: { icon: '⚙️', nav: true }
     });
-
     router.route('/404', {
         component: notFoundPage,
         title: 'Page Not Found',
