@@ -1,1 +1,205 @@
+/* ============================================================
+   css/themes/dark.css — Dark Theme
+   Applied Deep Learning Platform
+   ============================================================ */
 
+[data-theme="dark"] {
+    /* ── Base Colors ────────────────────────────────────────── */
+    --color-primary: #818cf8;
+    --color-primary-dark: #6366f1;
+    --color-primary-light: #a5b4fc;
+    --color-secondary: #a78bfa;
+    --color-secondary-dark: #8b5cf6;
+    --color-secondary-light: #c4b5fd;
+    
+    --color-success: #34d399;
+    --color-success-dark: #22c55e;
+    --color-success-light: #6ee7b7;
+    
+    --color-danger: #f87171;
+    --color-danger-dark: #ef4444;
+    --color-danger-light: #fca5a5;
+    
+    --color-warning: #fbbf24;
+    --color-warning-dark: #f59e0b;
+    --color-warning-light: #fcd34d;
+    
+    --color-info: #60a5fa;
+    --color-info-dark: #3b82f6;
+    --color-info-light: #93c5fd;
+    
+    /* ── Background Colors ──────────────────────────────────── */
+    --bg-primary: #0f1117;
+    --bg-secondary: #1a1d27;
+    --bg-surface: #242833;
+    --bg-surface-alt: #2d323e;
+    --bg-surface-hover: #353b4a;
+    
+    /* ── Text Colors ────────────────────────────────────────── */
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-inverse: #0f1117;
+    
+    /* ── Border Colors ──────────────────────────────────────── */
+    --border-color: #374151;
+    --border-color-strong: #4b5563;
+    --border-color-light: #2d323e;
+    
+    /* ── Shadow Colors ──────────────────────────────────────── */
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --shadow-color-light: rgba(0, 0, 0, 0.3);
+    
+    /* ── Scrollbar Colors ───────────────────────────────────── */
+    --scrollbar-track: #1a1d27;
+    --scrollbar-thumb: #374151;
+    --scrollbar-thumb-hover: #4b5563;
+    
+    /* ── Selection Colors ───────────────────────────────────── */
+    --selection-bg: rgba(129, 140, 248, 0.3);
+    --selection-text: #f1f5f9;
+    
+    /* ── Placeholder Colors ─────────────────────────────────── */
+    --placeholder-color: #6b7280;
+    
+    /* ── Disabled Colors ────────────────────────────────────── */
+    --disabled-bg: #1a1d27;
+    --disabled-text: #6b7280;
+    --disabled-border: #374151;
+    
+    /* ── Focus Ring ─────────────────────────────────────────── */
+    --focus-ring: rgba(129, 140, 248, 0.4);
+    
+    /* ── Input Colors ───────────────────────────────────────── */
+    --input-bg: #1a1d27;
+    --input-border: #374151;
+    --input-text: #f1f5f9;
+    --input-focus-border: #818cf8;
+    
+    /* ── Card Colors ────────────────────────────────────────── */
+    --card-bg: #242833;
+    --card-border: #374151;
+    --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --card-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.5);
+    
+    /* ── Modal Colors ───────────────────────────────────────── */
+    --modal-overlay: rgba(0, 0, 0, 0.8);
+    --modal-bg: #242833;
+    --modal-border: #374151;
+    
+    /* ── Toast Colors ───────────────────────────────────────── */
+    --toast-bg: #242833;
+    --toast-border: #374151;
+    --toast-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    
+    /* ── Navigation Colors ──────────────────────────────────── */
+    --nav-bg: #1a1d27;
+    --nav-active-bg: rgba(129, 140, 248, 0.1);
+    --nav-active-border: #818cf8;
+    --nav-hover-bg: rgba(255, 255, 255, 0.05);
+    
+    /* ── Progress Colors ────────────────────────────────────── */
+    --progress-track: #2d323e;
+    --progress-fill: #818cf8;
+    --progress-success: #34d399;
+    --progress-warning: #fbbf24;
+    --progress-danger: #f87171;
+    
+    /* ── Chart Colors ───────────────────────────────────────── */
+    --chart-grid: #374151;
+    --chart-label: #94a3b8;
+    --chart-tooltip-bg: #242833;
+    --chart-tooltip-border: #374151;
+}
+
+/* ── Dark Theme Specific Styles ──────────────────────────────── */
+
+/* Scrollbar Styling */
+[data-theme="dark"] ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: var(--border-radius-full);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: var(--border-radius-full);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* Selection */
+[data-theme="dark"] ::selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
+}
+
+/* Placeholder */
+[data-theme="dark"] ::placeholder {
+    color: var(--placeholder-color);
+    opacity: 0.8;
+}
+
+/* Input Autofill Override */
+[data-theme="dark"] input:-webkit-autofill,
+[data-theme="dark"] input:-webkit-autofill:hover,
+[data-theme="dark"] input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
+    -webkit-text-fill-color: var(--input-text) !important;
+}
+
+/* Focus Visible */
+[data-theme="dark"] :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+/* Disabled Elements */
+[data-theme="dark"] [disabled],
+[data-theme="dark"] .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Loading Shimmer */
+[data-theme="dark"] .loading-shimmer {
+    background: linear-gradient(
+        90deg,
+        var(--bg-surface) 25%,
+        var(--bg-surface-alt) 50%,
+        var(--bg-surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* ── Print Overrides ──────────────────────────────────────────── */
+@media print {
+    [data-theme="dark"] body {
+        background: #fff !important;
+        color: #000 !important;
+    }
+    
+    [data-theme="dark"] .bg-surface,
+    [data-theme="dark"] .bg-secondary,
+    [data-theme="dark"] .bg-primary {
+        background: #fff !important;
+    }
+    
+    [data-theme="dark"] .text-primary,
+    [data-theme="dark"] .text-secondary,
+    [data-theme="dark"] .text-muted {
+        color: #000 !important;
+    }
+    
+    [data-theme="dark"] .border-color {
+        border-color: #ddd !important;
+    }
+}
