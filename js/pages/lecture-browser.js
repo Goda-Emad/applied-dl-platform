@@ -711,8 +711,4 @@ class LectureBrowser {
 /**
  * Create and export the lecture browser instance
  */
-const lectureBrowser = new LectureBrowser();
-
-// Export the lecture browser
-export default lectureBrowser;
-
+export default LectureBrowser;
