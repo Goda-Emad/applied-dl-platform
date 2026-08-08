@@ -945,8 +945,4 @@ class LectureDetail {
 /**
  * Create and export the lecture detail instance
  */
-const lectureDetail = new LectureDetail();
-
-// Export the lecture detail
-export default lectureDetail;
-
+export default LectureDetail;
